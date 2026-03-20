@@ -6,7 +6,15 @@ def install(package):
     subprocess.check_call([sys.executable, "-m", "pip", "install", package])
 
 
-APP_PATH = "demo.py"  # Ide írd a fő program nevét/elérhetőségét
+# =================================================================
+#                SZERKESZTHETŐ BEÁLLÍTÁSOK RÉSZE
+# =================================================================
+
+APP_PATH = "demo.py"     # Ide írd a fő program nevét/elérhetőségét
+
+# =================================================================
+#                SZERKESZTHETŐ RÉSZ VÉGE
+# ================================================================= 
 
 try:
     import blessed
@@ -14,20 +22,15 @@ except ImportError:
     print("A program futtatásához az alábbi könyvtár(ak) telepítése szükséges:")
     print("    • blessed")
     while True:
-        Answer = input('Szeretné telepíteni őket? ["yes"/"no"] ').lower()
-        if Answer == "yes":
-            try:
+        answer = input('Szeretné telepíteni őket? ["yes"/"no"] ').lower()
+        if answer == "yes":
                 install("blessed")
                 subprocess.run([sys.executable, APP_PATH])
-                break
-            except:
-                print(
-                    "A varázsló hibába ütlözött a könyvtár telepítése során. (pedig nagyon keményen próbálkozott)"
-                )
-                break
-        elif Answer == "no":
+                sys.exit()
+        elif answer == "no":
             print("A program működése hibába ütközött")
-            break
+            sys.exit()
 else:
     print("Loading....")
     subprocess.run([sys.executable, APP_PATH])
+
