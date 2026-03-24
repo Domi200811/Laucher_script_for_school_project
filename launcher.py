@@ -26,14 +26,13 @@ except ImportError:
     print("    • blessed")
     while True:
         answer = input('Szeretné telepíteni őket? ["yes"/"no"] ').lower()
-        if answer == "yes" or "y":
+        if answer == "yes" or answer == "y":
                 install("blessed")
-                subprocess.run([sys.executable, APP_PATH])
-                sys.exit()
-        elif answer == "no" or "n":
+                break
+        elif answer == "no" or answer == "n":
             print("A program működése során hibába ütközött")
             sys.exit()
-else:
-    print("Loading....")
-    subprocess.run([sys.executable, APP_PATH])
+
+print("Loading....")
+subprocess.run([sys.executable, APP_PATH])
 
