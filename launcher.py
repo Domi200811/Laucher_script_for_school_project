@@ -1,5 +1,6 @@
 import subprocess
 import sys
+import os
 
 
 def install(package):
@@ -15,6 +16,8 @@ APP_PATH = "demo.py"     # Ide írd a fő program nevét/elérhetőségét
 # =================================================================
 #                SZERKESZTHETŐ RÉSZ VÉGE
 # ================================================================= 
+
+APP_PATH=os.path.abspath(APP_PATH)
 
 try:
     import blessed
