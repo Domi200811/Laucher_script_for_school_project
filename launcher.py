@@ -4,7 +4,6 @@ import os
 import importlib
 import time
 
-
 def install(package):
     subprocess.check_call([sys.executable, "-m", "pip", "install", package])
 
@@ -43,7 +42,7 @@ if len(missing_libs) > 0:
                 install(i)
             break
         elif answer == "no" or answer == "n":
-            print("A program működése során hibába ütközött (itt most lenne egy fingós vicc de a szüséges könyvtár hiányában elmarad)")
+            print("ERROR: A program működése során hibába ütközött (itt most lenne egy fingós vicc de a szüséges könyvtár hiányában elmarad)")
             sys.exit()
 
 print("Loading....")

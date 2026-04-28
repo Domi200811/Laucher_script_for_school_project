@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python subprocess ImportError hiba - r/programozas</title>
+    <style>
+        :root {
+            --reddit-orange: #FF4500;
+            --reddit-blue: #0079D3;
+            --bg-gray: #DAE0E6;
+            --border-color: #ccc;
+            --text-main: #1A1A1B;
+            --text-meta: #787C7E;
+        }
+
+        * {
+            box-sizing: border-box; /* Ez megakadályozza, hogy a padding szétnyomja a szélességet */
+        }
+
+        body {
+            background-color: var(--bg-gray);
+            font-family: "Segoe UI", sans-serif;
+            margin: 0;
+            padding: 0;
+            color: var(--text-main);
+        }
+
+        header {
+            background-color: white;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            border-bottom: 1px solid #edeff1;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 100;
+        }
+
+        .logo { font-weight: bold; color: var(--reddit-orange); font-size: 18px; display: flex; align-items: center; gap: 5px; cursor: pointer;}
+        .search-bar { background-color: #f6f7f8; border: 1px solid #edeff1; border-radius: 20px; padding: 6px 15px; flex-grow: 1; max-width: 500px; margin: 0 20px; font-size: 14px; }
+
+        .container { 
+            margin-top: 60px; 
+            display: flex; 
+            justify-content: center; 
+            gap: 24px; 
+            padding: 0 20px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .main-content { 
+            width: 100%;
+            max-width: 740px; 
+            background-color: white; 
+            border: 1px solid var(--border-color); 
+            border-radius: 4px; 
+        }
+
+        .post { display: flex; border-bottom: 1px solid #edeff1; }
+        .vote-sidebar { 
+            width: 40px; 
+            background-color: #f8f9fa; 
+            padding: 10px 0; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            font-weight: bold; 
+        }
+        
+        .vote-sidebar div { cursor: pointer; color: #878A8C; }
+        .vote-sidebar div:hover { color: var(--reddit-orange); }
+
+        .post-body { padding: 15px; flex-grow: 1; }
+        .post-meta { font-size: 12px; color: var(--text-meta); margin-bottom: 10px; }
+        .post-title { font-size: 20px; font-weight: 600; margin-bottom: 15px; }
+        
+        pre {
+            background-color: #1a1a1b;
+            color: #d7dadc;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 13px;
+        }
+
+        .comment-section { padding: 20px; }
+        .comment { 
+            border-left: 2px solid #edeff1; 
+            padding-left: 15px; 
+            margin-top: 20px; 
+            transition: border-color 0.2s;
+        }
+        .comment:hover { border-left-color: var(--reddit-blue); }
+        .c-user { font-weight: bold; font-size: 12px; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+        .c-body { font-size: 14px; line-height: 1.6; }
+        .op-tag { background: var(--reddit-blue); color: white; padding: 1px 4px; border-radius: 2px; font-size: 10px; }
+
+        .sidebar { width: 312px; display: none; } /* Mobilon elrejtjük */
+        
+        @media (min-width: 960px) {
+            .sidebar { display: block; }
+        }
+
+        .sidebar-card { background-color: white; border: 1px solid var(--border-color); border-radius: 4px; margin-bottom: 16px; padding: 12px; }
+        .card-title { font-weight: bold; font-size: 14px; margin-bottom: 10px; text-transform: uppercase; color: var(--text-meta); }
+        
+        .btn-join { 
+            background: var(--reddit-blue); 
+            color: white; 
+            border: none; 
+            width: 100%; 
+            padding: 10px; 
+            border-radius: 20px; 
+            font-weight: bold; 
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        .btn-join:hover { opacity: 0.9; }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo"><span><img src="reddit-mod.png" width=45px height=45px></span> reddit</div>
+    <div class="search-bar">Search: Python ImportError subprocess</div>
+    <div style="margin-left: auto; font-size: 14px;">👤 u/PutMyBallSInAVise</div>
+</header>
+
+<div class="container">
+    <main class="main-content">
+        <article class="post">
+            <div class="vote-sidebar">
+                <div>▲</div>
+                <span>0</span>
+                <div>▼</div>
+            </div>
+            <div class="post-body">
+                <div class="post-meta">Poster: u/PutMyBallSInAVise • 69 years ago</div>
+                <div class="post-title">Help! Why does the program dies down when I say no to install?</div>
+                <div class="post-text">
+                    The error message is the following:
+                    <pre>ERROR: A program működése során hibába ütközött
+(itt most lenne egy fingós vicc de a szükséges könyvtár hiányában elmarad)</pre>
+                </div>
+            </div>
+        </article>
+
+        <section class="comment-section">
+            <div class="comment">
+                <div class="c-user">
+                    <b>u/Senior_Dev_69</b> 
+                    <span style="color:var(--reddit-orange)">• 3.4k pont</span> 
+                    <span style="color:var(--text-meta)">• 67 years ago</span>
+                </div>
+                <div class="c-body">
+                    <p>Look, your fundamental approach carries such structural entropy that we simply cannot let it slide in a professional community like this. Before we even touch upon the specific <code>subprocess</code> call, allow me to highlight the fundamental laws of software engineering that you have so clearly ignored.</p>
+    <p>First, let's talk about the <b>Separation of Concerns</b>. You are forcing a package manager, UI interactions, and business logic into a single script. It’s a monolithic nightmare. It’s 2026, man! Where is the Docker container? Where is the CI/CD pipeline that validates dependencies in an isolated environment the moment you commit? If you submitted this to a serious code review, a senior architect would bounce it back before you even reached the <code>time.sleep(1)</code>—which, by the way, is a massive anti-pattern we’ll discuss later.</p>
+    <p>Then there’s memory management and the process tree. When you call <code>sys.executable</code>, you aren't just starting a new process; you are re-instantiating a complete Python interpreter. Do you have any idea of the overhead this imposes on the kernel? The cost of <b>context switching</b> on modern CPUs has increased significantly since the Spectre and Meltdown patches. Sacrificing this many CPU cycles for a simple dependency check... well, let’s just say environmentalists wouldn't be happy with your carbon footprint.</p>
+    <p>And your <code>while True</code> loop? It’s the most primitive form of <b>busy waiting</b>. Why aren't you using an event-driven architecture? An asynchronous <code>await loop.run_in_executor()</code> call would have spared the system from blocking the main thread for such trivial input. Furthermore, your error handling is non-existent. There isn't a single <code>try-except-finally</code> block to handle a <code>KeyboardInterrupt</code> or a <code>BrokenPipeError</code>. If a user hits Ctrl+C, your program collapses like a house of cards, leaving behind a swarm of <b>zombie processes</b> devouring PIDs.</p>
+    <p>As for style, have you ever even glanced at <b>PEP 8</b>? Your variable names (e.g., <code>libs</code>) are far too generic. According to Clean Code principles, a name should reveal intent—something like <code>REQUIRED_EXTERNAL_DEPENDENCY_LIST</code>. And those comments... notes like "end of editable section" belong in the 90s Basic era. Well-written code is self-documenting. If you have to comment, you're already drowning in <b>technical debt</b>.</p>
+    <p>You should also dive deeper into <b>Category Theory</b>. If you viewed the installation process as a Monad, the yes/no response would simply be a state transition in a Finite State Machine. This could be elegantly described in a functional paradigm, avoiding the side effects caused by that atrocious <code>subprocess.run</code>. Personally, I only write such tools in <b>Rust</b> now; the borrow checker simply wouldn't permit the level of recklessness you’re displaying here.</p>
+    <p>Finally, your error messages. Mocking the user for not wanting to install unknown code? That is a total failure in UX design. Trust is the most important currency in IT, and you just spent it all on a cheap joke. To be honest, I've analyzed the stack trace, checked the memory dump, and cross-referenced your code with the Linux kernel source and the Python C-API documentation... but <b>I have no idea why your program exits without printing the joke.</b> It’s a lost cause. Delete the whole thing and go herd goats in the Alps; it might be a task better suited to your complexity level.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <aside class="sidebar">
+        <div class="sidebar-card">
+            <div class="card-title">r/MeKnowBetter:3</div>
+            <p style="font-size: 14px;">Everybody is smarter than you. Cry about it</p>
+            <button class="btn-join">Join</button>
+        </div>
+    </aside>
+</div>
+
+</body>
+</html>
