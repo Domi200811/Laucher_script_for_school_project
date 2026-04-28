@@ -21,7 +21,7 @@ APP_PATH = "demo.py"  # Ide írd a fő program nevét/elérhetőségét
 
 APP_PATH = os.path.abspath(APP_PATH)
 
-libs = ["blessed", "pygame"]
+libs = ["blessed", "pygame",]
 missing_libs = []
 
 
@@ -43,7 +43,7 @@ if len(missing_libs) > 0:
                 install(i)
             break
         elif answer == "no" or answer == "n":
-            print("A program működése során hibába ütközött")
+            print("A program működése során hibába ütközött (itt most lenne egy fingós vicc de a szüséges könyvtár hiányában elmarad)")
             sys.exit()
 
 print("Loading....")
