@@ -7,7 +7,10 @@ y = 3
 memory_X = []
 memory_O = []
 following = 0
-
+WINNING_COMBOS = [
+    [[3, 2], [9, 2], [15, 2]], [[3, 5], [9, 5], [15, 5]], [[3, 8], [9, 8], [15, 8]],
+    [[3, 2], [3, 5], [3, 8]], [[9, 2], [9, 5], [9, 8]], [[15, 2], [15, 5], [15, 8]],
+    [[3, 2], [9, 5], [15, 8]], [[15, 2], [9, 5], [3, 8]]]
 # Use the location context manager to ensure the cursor
 # returns to its original position afterward
 
@@ -82,13 +85,16 @@ with term.cbreak():
                         following = following + 1
                         if following > 1:
                             following = 0
+            for i in WINNING_COMBOS:
+                if all(sub in memory_X for sub in i)==True:
+                    with term.location(15, 3):
+                            print("X wins")
+                if all(sub in memory_O for sub in i)==True:
+                    with term.location(15, 3):
+                            print("O wins")
+
 
 
 print(memory_X)
 print(memory_O)
 
-WINNING_COMBOS = [
-    [[3, 2], [9, 2], [15, 2]], [[3, 5], [9, 5], [15, 5]], [[3, 8], [9, 8], [15, 8]],
-    [[3, 2], [3, 5], [3, 8]], [[9, 2], [9, 5], [9, 8]], [[15, 2], [15, 5], [15, 8]],
-    [[3, 2], [9, 5], [15, 8]], [[15, 2], [9, 5], [3, 8]]
-]
