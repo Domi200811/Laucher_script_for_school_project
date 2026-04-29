@@ -30,6 +30,7 @@ def game():
         [[3, 2], [3, 5], [3, 8]], [[9, 2], [9, 5], [9, 8]], [[15, 2], [15, 5], [15, 8]],
         [[3, 2], [9, 5], [15, 8]], [[15, 2], [9, 5], [3, 8]]]
     Place=pygame.mixer.Sound(f"sfx/{random.choice(os.listdir('sfx'))}")
+    game_won=False
 
     board = """\
    a     b     c
@@ -44,7 +45,7 @@ def game():
       |     |     """
 
     with term.location(0, 0):
-        print(board)
+        print(term.magenta_bold + board + term.normal)
 
     with term.cbreak():
         while True:
@@ -60,62 +61,65 @@ def game():
                 with term.location(y, x):
                     print(" ", end="")
                     
-
-                if key == "w":
-                    x = x - 3
-
-                if key == "s":
-                    x = x + 3
-
-                if key == "d":
-                    y = y + 6
-
-                if key == "a":
-                    y = y - 6
-
                 if key == "q":
                     break
 
-            if x > 9:
-                x = x - 3
+                    
+                if game_won==False:
+                    if key == "w":
+                        x = x - 3
 
-            if x < 0:
-                x = x + 3
+                    if key == "s":
+                        x = x + 3
 
-            if y > 18:
-                y = y - 6
+                    if key == "d":
+                        y = y + 6
 
-            if y < 3:
-                y = y + 6
+                    if key == "a":
+                        y = y - 6
 
-            if key == " ":
-                if following == 0:
-                    sub_memory = [y, x + 1]
-                    if sub_memory not in memory_X and sub_memory not in memory_O:
-                        with term.location(y, x + 1):
-                            Place.play()
-                            print(term.red_bold + "X" + term.normal)
-                            memory_X.append(sub_memory)
-                            following = following + 1
-                            if following > 1:
-                                following = 0
-                elif following == 1:
-                    sub_memory = [y, x + 1]
-                    if sub_memory not in memory_X and sub_memory not in memory_O:
-                        with term.location(y, x + 1):
-                            Place.play()
-                            print(term.blue_bold + "O" + term.normal)
-                            memory_O.append(sub_memory)
-                            following = following + 1
-                            if following > 1:
-                                following = 0
-                for i in WINNING_COMBOS:
-                    if all(sub in memory_X for sub in i)==True:
-                        with term.location(15, 3):
-                                print("X wins")
-                    if all(sub in memory_O for sub in i)==True:
-                        with term.location(15, 3):
-                                print("O wins")
+                if x > 9:
+                    x = x - 3
+
+                if x < 0:
+                    x = x + 3
+
+                if y > 18:
+                    y = y - 6
+
+                if y < 3:
+                    y = y + 6
+
+                if key == " ":
+                    if following == 0:
+                        sub_memory = [y, x + 1]
+                        if sub_memory not in memory_X and sub_memory not in memory_O:
+                            with term.location(y, x + 1):
+                                Place.play()
+                                print(term.red_bold + "X" + term.normal)
+                                memory_X.append(sub_memory)
+                                following = following + 1
+                                if following > 1:
+                                    following = 0
+                    elif following == 1:
+                        sub_memory = [y, x + 1]
+                        if sub_memory not in memory_X and sub_memory not in memory_O:
+                            with term.location(y, x + 1):
+                                Place.play()
+                                print(term.blue_bold + "O" + term.normal)
+                                memory_O.append(sub_memory)
+                                following = following + 1
+                                if following > 1:
+                                    following = 0
+                    for i in WINNING_COMBOS:
+                        if all(sub in memory_X for sub in i)==True:
+                            with term.location(15, 3):
+                                    print("X wins")
+                                    game_won=True
+                        if all(sub in memory_O for sub in i)==True:
+                            with term.location(15, 3):
+                                    print("O wins")
+                                    game_won=True
 
 
 
