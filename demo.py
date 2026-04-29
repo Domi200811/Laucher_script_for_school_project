@@ -2,6 +2,7 @@ import pygame
 import threading
 import os
 from blessed import Terminal
+import random
 
 
 def music():
@@ -28,19 +29,18 @@ def game():
         [[3, 2], [9, 2], [15, 2]], [[3, 5], [9, 5], [15, 5]], [[3, 8], [9, 8], [15, 8]],
         [[3, 2], [3, 5], [3, 8]], [[9, 2], [9, 5], [9, 8]], [[15, 2], [15, 5], [15, 8]],
         [[3, 2], [9, 5], [15, 8]], [[15, 2], [9, 5], [3, 8]]]
-    # Use the location context manager to ensure the cursor
-    # returns to its original position afterward
+    Place=pygame.mixer.Sound(f"sfx/{random.choice(os.listdir('sfx'))}")
 
     board = """\
    a     b     c
       |     |     
-1  -  |  -  |  -  
+1     |     |     
  _____|_____|_____
       |     |     
-2  -  |  -  |  -  
+2     |     |     
  _____|_____|_____
       |     |     
-3  -  |  -  |  -  
+3     |     |     
       |     |     """
 
     with term.location(0, 0):
@@ -49,12 +49,17 @@ def game():
     with term.cbreak():
         while True:
             with term.location(y, x):
-                print("ˇ")
+                if following==0:
+                    print(term.red_bold + "ˇ" + term.normal)
+                if following==1:
+                    print(term.blue_bold + "ˇ" + term.normal)
+                
 
                 key = term.inkey()
 
                 with term.location(y, x):
                     print(" ", end="")
+                    
 
                 if key == "w":
                     x = x - 3
@@ -88,7 +93,8 @@ def game():
                     sub_memory = [y, x + 1]
                     if sub_memory not in memory_X and sub_memory not in memory_O:
                         with term.location(y, x + 1):
-                            print("X")
+                            Place.play()
+                            print(term.red_bold + "X" + term.normal)
                             memory_X.append(sub_memory)
                             following = following + 1
                             if following > 1:
@@ -97,7 +103,8 @@ def game():
                     sub_memory = [y, x + 1]
                     if sub_memory not in memory_X and sub_memory not in memory_O:
                         with term.location(y, x + 1):
-                            print("O")
+                            Place.play()
+                            print(term.blue_bold + "O" + term.normal)
                             memory_O.append(sub_memory)
                             following = following + 1
                             if following > 1:
