@@ -2,11 +2,13 @@ from blessed import Terminal
 
 term = Terminal()
 print(term.clear + term.hide_cursor)
-x=1
-y=3
-memory=[]
+x = 1
+y = 3
+memory_X = []
+memory_O = []
+following = 0
 
-# Use the location context manager to ensure the cursor 
+# Use the location context manager to ensure the cursor
 # returns to its original position afterward
 
 board = """\
@@ -27,45 +29,60 @@ with term.location(0, 0):
 with term.cbreak():
     while True:
         with term.location(y, x):
-            print('ˇ')
+            print("ˇ")
 
-
-            key=term.inkey()
+            key = term.inkey()
 
             with term.location(y, x):
-                    print(' ', end='')
+                print(" ", end="")
 
-            if key=="w":
-                x=x-3
+            if key == "w":
+                x = x - 3
 
-            if key=="s":
-                x=x+3
+            if key == "s":
+                x = x + 3
 
-            if key=="d":
-                y=y+6
-                
-            if key=="a":
-                y=y-6
+            if key == "d":
+                y = y + 6
 
-            if key=="q":
+            if key == "a":
+                y = y - 6
+
+            if key == "q":
                 break
 
-        if x>9:
-            x=x-3
-            
-        if x<0:
-            x=x+3
+        if x > 9:
+            x = x - 3
 
-        if y>18:
-            y=y-6
-            
-        if y<3:
-            y=y+6
+        if x < 0:
+            x = x + 3
 
-        if key==" ":
-            with term.location(y, x+1):
-                print("x")
-                sub_memory=[y,x+1]
-                memory.append(sub_memory)
+        if y > 18:
+            y = y - 6
 
-print(memory)
+        if y < 3:
+            y = y + 6
+
+        if key == " ":
+            if following == 0:
+                sub_memory = [y, x + 1]
+                if sub_memory not in memory_X and sub_memory not in memory_O:
+                    with term.location(y, x + 1):
+                        print("X")
+                        memory_X.append(sub_memory)
+                        following = following + 1
+                        if following > 1:
+                            following = 0
+            elif following == 1:
+                sub_memory = [y, x + 1]
+                if sub_memory not in memory_X and sub_memory not in memory_O:
+                    with term.location(y, x + 1):
+                        print("O")
+                        memory_O.append(sub_memory)
+                        following = following + 1
+                        if following > 1:
+                            following = 0
+
+
+print(memory_X)
+print(memory_O)
