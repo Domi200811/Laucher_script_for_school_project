@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python subprocess ImportError - r/MeKnowBetter:3</title>
+    <style>
+        :root {
+            --reddit-orange: #FF4500;
+            --reddit-blue: #0079D3;
+            --bg-gray: #DAE0E6;
+            --border-color: #ccc;
+            --text-main: #1A1A1B;
+            --text-meta: #787C7E;
+        }
+
+        * {
+            box-sizing: border-box; /* Ez megakadályozza, hogy a padding szétnyomja a szélességet */
+        }
+
+        body {
+            background-color: var(--bg-gray);
+            font-family: "Segoe UI", sans-serif;
+            margin: 0;
+            padding: 0;
+            color: var(--text-main);
+        }
+
+        header {
+            background-color: white;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            border-bottom: 1px solid #edeff1;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 100;
+        }
+
+        .logo { font-weight: bold; color: var(--reddit-orange); font-size: 18px; display: flex; align-items: center; gap: 5px; cursor: pointer;}
+        .search-bar { background-color: #f6f7f8; border: 1px solid #edeff1; border-radius: 20px; padding: 6px 15px; flex-grow: 1; max-width: 500px; margin: 0 20px; font-size: 14px; }
+
+        .container { 
+            margin-top: 60px; 
+            display: flex; 
+            justify-content: center; 
+            gap: 24px; 
+            padding: 0 20px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .main-content { 
+            width: 100%;
+            max-width: 740px; 
+            background-color: white; 
+            border: 1px solid var(--border-color); 
+            border-radius: 4px; 
+        }
+
+        .post { display: flex; border-bottom: 1px solid #edeff1; }
+        .vote-sidebar { 
+            width: 40px; 
+            background-color: #f8f9fa; 
+            padding: 10px 0; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            font-weight: bold; 
+        }
+        
+        .vote-sidebar div { cursor: pointer; color: #878A8C; }
+        .vote-sidebar div:hover { color: var(--reddit-orange); }
+
+        .post-body { padding: 15px; flex-grow: 1; }
+        .post-meta { font-size: 12px; color: var(--text-meta); margin-bottom: 10px; }
+        .post-title { font-size: 20px; font-weight: 600; margin-bottom: 15px; }
+        
+        pre {
+            background-color: #1a1a1b;
+            color: #d7dadc;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 13px;
+        }
+
+        .comment-section { padding: 20px; }
+        .comment { 
+            border-left: 2px solid #edeff1; 
+            padding-left: 15px; 
+            margin-top: 20px; 
+            transition: border-color 0.2s;
+        }
+        .comment:hover { border-left-color: var(--reddit-blue); }
+        .c-user { font-weight: bold; font-size: 12px; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+        .c-body { font-size: 14px; line-height: 1.6; }
+        .op-tag { background: var(--reddit-blue); color: white; padding: 1px 4px; border-radius: 2px; font-size: 10px; }
+
+        .sidebar { width: 312px; display: none; } /* Mobilon elrejtjük */
+        
+        @media (min-width: 960px) {
+            .sidebar { display: block; }
+        }
+
+        .sidebar-card { background-color: white; border: 1px solid var(--border-color); border-radius: 4px; margin-bottom: 16px; padding: 12px; }
+        .card-title { font-weight: bold; font-size: 14px; margin-bottom: 10px; text-transform: uppercase; color: var(--text-meta); }
+        
+        .btn-join { 
+            background: var(--reddit-blue); 
+            color: white; 
+            border: none; 
+            width: 100%; 
+            padding: 10px; 
+            border-radius: 20px; 
+            font-weight: bold; 
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        .btn-join:hover { opacity: 0.9; }
+
+        .award-container img {
+            width: 20px;
+            height: 20px;
+        }
+
+        .award-container {
+            display: flex;      
+            flex-wrap: wrap;    
+            gap: 5px;           
+            padding: 12px;
+            background-color: lightgray;
+            border-radius: 5px;
+        }
+
+        .award-container img:hover {
+            transform: scale(1.5); 
+            cursor: pointer;
+        }
+
+        .award-number {
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+        .award-item{
+            background-color: rgba(0,0,0,0.05); /* Subtle background */
+            padding: 2px 8px;                  /* Vertical and Horizontal padding */
+            border-radius: 12px;               /* Makes them look like pills */
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-weight: bolder;
+}
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo"><span><img src="reddit-mod.png" width=45px height=45px></span> reddit</div>
+    <div class="search-bar">Search: Python ImportError subprocess</div>
+    <div style="margin-left: auto; font-size: 14px;">👤 u/PutMyBallSInAVise</div>
+</header>
+
+<div class="container">
+    <main class="main-content">
+        <article class="post">
+            <div class="vote-sidebar">
+                <div>▲</div>
+                <span>0</span>
+                <div>▼</div>
+            </div>
+            <div class="post-body">
+                <div class="post-meta">Poster: u/PutMyBallSInAVise • 69 years ago</div>
+                <div class="post-title">Help! Why does the program dies down when I say no to install?</div>
+                <div class="post-text">
+                    The error message is the following:
+                    <pre>ERROR: A program működése során hibába ütközött
+(itt most lenne egy fingós vicc de a szükséges könyvtár hiányában elmarad)</pre>
+                </div>
+            </div>
+        </article>
+
+        <section class="comment-section">
+            <div class="comment">
+                <div class="c-user">
+                    <b>u/Senior_Dev_69</b> 
+                    <span style="color:var(--reddit-orange)">• 3.4k karma</span> 
+                    <span style="color:var(--text-meta)">• 67 years ago</span>
+                </div>
+                <div class="c-body">
+                    <p>Look, your fundamental approach carries such structural entropy that we simply cannot let it slide in a professional community like this. Before we even touch upon the specific <code>subprocess</code> call, allow me to highlight the fundamental laws of software engineering that you have so clearly ignored.</p>
+    <p>First, let's talk about the <b>Separation of Concerns</b>. You are forcing a package manager, UI interactions, and business logic into a single script. It’s a monolithic nightmare. It’s 2026, man! Where is the Docker container? Where is the CI/CD pipeline that validates dependencies in an isolated environment the moment you commit? If you submitted this to a serious code review, a senior architect would bounce it back before you even reached the <code>time.sleep(1)</code>—which, by the way, is a massive anti-pattern we’ll discuss later.</p>
+    <p>Then there’s memory management and the process tree. When you call <code>sys.executable</code>, you aren't just starting a new process; you are re-instantiating a complete Python interpreter. Do you have any idea of the overhead this imposes on the kernel? The cost of <b>context switching</b> on modern CPUs has increased significantly since the Spectre and Meltdown patches. Sacrificing this many CPU cycles for a simple dependency check... well, let’s just say environmentalists wouldn't be happy with your carbon footprint.</p>
+    <p>And your <code>while True</code> loop? It’s the most primitive form of <b>busy waiting</b>. Why aren't you using an event-driven architecture? An asynchronous <code>await loop.run_in_executor()</code> call would have spared the system from blocking the main thread for such trivial input. Furthermore, your error handling is non-existent. There isn't a single <code>try-except-finally</code> block to handle a <code>KeyboardInterrupt</code> or a <code>BrokenPipeError</code>. If a user hits Ctrl+C, your program collapses like a house of cards, leaving behind a swarm of <b>zombie processes</b> devouring PIDs.</p>
+    <p>As for style, have you ever even glanced at <b>PEP 8</b>? Your variable names (e.g., <code>libs</code>) are far too generic. According to Clean Code principles, a name should reveal intent—something like <code>REQUIRED_EXTERNAL_DEPENDENCY_LIST</code>. And those comments... notes like "end of editable section" belong in the 90s Basic era. Well-written code is self-documenting. If you have to comment, you're already drowning in <b>technical debt</b>.</p>
+    <p>You should also dive deeper into <b>Category Theory</b>. If you viewed the installation process as a Monad, the yes/no response would simply be a state transition in a Finite State Machine. This could be elegantly described in a functional paradigm, avoiding the side effects caused by that atrocious <code>subprocess.run</code>. Personally, I only write such tools in <b>Rust</b> now; the borrow checker simply wouldn't permit the level of recklessness you’re displaying here.</p>
+    <p>Finally, your error messages. Mocking the user for not wanting to install unknown code? That is a total failure in UX design. Trust is the most important currency in IT, and you just spent it all on a cheap joke. To be honest, I've analyzed the stack trace, checked the memory dump, and cross-referenced your code with the Linux kernel source and the Python C-API documentation... but <b>I have no idea why your program exits without printing the joke.</b> It’s a lost cause. Delete the whole thing and go herd goats in the Alps; it might be a task better suited to your complexity level.</p>
+                </div>
+            </div>
+            <div class="award-container">
+                <div class="award-item">218</div> <img src="reddit-awards-main/0o2j782f00e41_WholesomeSuperpro.png">
+                <div class="award-item">491</div> <img src="reddit-awards-main/12kz7a7j4v541_HeartEyes.png">
+                <div class="award-item">411</div> <img src="reddit-awards-main/18mwqw5th9e51_MURICA.png">
+                <div class="award-item">30</div> <img src="reddit-awards-main/2jd92wtn25g41_ImDeceased.png">
+                <div class="award-item">335</div> <img src="reddit-awards-main/35d17tf5e5f61_oldrocketlike.png">
+                <div class="award-item">280</div> <img src="reddit-awards-main/43zl6dfcg9e51_EvilCackle.png">
+                <div class="award-item">499</div> <img src="reddit-awards-main/45aeu8mzvsj51_IllDrinktoThat.png">
+                <div class="award-item">324</div> <img src="reddit-awards-main/4samff1ud5f61_olddisappoint.png">
+                <div class="award-item">35</div> <img src="reddit-awards-main/5izbv4fn0md41_Wholesome.png">
+                <div class="award-item">437</div> <img src="reddit-awards-main/5nswjpyy44551_Ally.png">
+                <div class="award-item">326</div> <img src="reddit-awards-main/6vgr8y21i9741_PlusOne.png">
+                <div class="award-item">246</div> <img src="reddit-awards-main/71v56o5a5v541_AwesomeAnswer.png">
+                <div class="award-item">245</div> <img src="reddit-awards-main/7atjjqpy1mc41_Updoot.png">
+                <div class="award-item">91</div> <img src="reddit-awards-main/80j20o397jj41_NarwhalSalute.png">
+                <div class="award-item">91</div> <img src="reddit-awards-main/8ad2jffnclf41_Thanks.png">
+                <div class="award-item">169</div> <img src="reddit-awards-main/9auzllkyd5f61_oldwearing.png">
+                <div class="award-item">267</div> <img src="reddit-awards-main/9avdcwgupta41_GottheW.png">
+                <div class="award-item">116</div> <img src="reddit-awards-main/a7dhg27hvnf51_Yummy.png">
+                <div class="award-item">448</div> <img src="reddit-awards-main/Animated_Cake_512.gif">
+                <div class="award-item">159</div> <img src="reddit-awards-main/Animated_Helpful_512.gif">
+                <div class="award-item">1</div> <img src="reddit-awards-main/b8xt4z8yajz31_Original.png">
+                <div class="award-item">158</div> <img src="reddit-awards-main/b9ks3a5k7jj41_WholesomeSealofApproval.png">
+                <div class="award-item">437</div> <img src="reddit-awards-main/Beating_Heart_512.gif">
+                <div class="award-item">457</div> <img src="reddit-awards-main/BeMineValentine_512.gif">
+                <div class="award-item">307</div> <img src="reddit-awards-main/blow_a_kiss_512.gif">
+                <div class="award-item">455</div> <img src="reddit-awards-main/bph2png4ajz31_TodayILearned.png">
+                <div class="award-item">471</div> <img src="reddit-awards-main/calculating_b_512.gif">
+                <div class="award-item">94</div> <img src="reddit-awards-main/CrabRave_512.gif">
+                <div class="award-item">405</div> <img src="reddit-awards-main/CrabRave_512.png">
+                <div class="award-item">41</div> <img src="reddit-awards-main/ey2iodron2s41_Facepalm.png">
+                <div class="award-item">306</div> <img src="reddit-awards-main/fck3iedi2ug51_Shocked.png">
+                <div class="award-item">24</div> <img src="reddit-awards-main/fukjtec638u41_TreeHug.png">
+                <div class="award-item">413</div> <img src="reddit-awards-main/g77c4oud7hb51_KeepCalm.png">
+                <div class="award-item">32</div> <img src="reddit-awards-main/Giggle_512.gif">
+                <div class="award-item">495</div> <img src="reddit-awards-main/Giggle_512.png">
+                <div class="award-item">477</div> <img src="reddit-awards-main/gold.png">
+                <div class="award-item">368</div> <img src="reddit-awards-main/HeartMedal_512.gif">
+                <div class="award-item">411</div> <img src="reddit-awards-main/heart_break_512.gif">
+                <div class="award-item">14</div> <img src="reddit-awards-main/hwnbr9l67s941_MadeMeSmile.png">
+                <div class="award-item">472</div> <img src="reddit-awards-main/Illuminati_512.gif">
+                <div class="award-item">264</div> <img src="reddit-awards-main/iq0sgwn5bzy41_LawyerUp.png">
+                <div class="award-item">201</div> <img src="reddit-awards-main/I_shy_512.gif">
+                <div class="award-item">83</div> <img src="reddit-awards-main/j3azv69qjfn51_LOVE.png">
+                <div class="award-item">54</div> <img src="reddit-awards-main/kjpl76213ug51_Looking.png">
+                <div class="award-item">47</div> <img src="reddit-awards-main/klvxk1wggfd41_Helpful.png">
+                <div class="award-item">109</div> <img src="reddit-awards-main/kthj3e4h3bm41_YasQueen.png">
+                <div class="award-item">317</div> <img src="reddit-awards-main/Levelup_512.gif">
+                <div class="award-item">102</div> <img src="reddit-awards-main/lop66ut2wnf51_TearingUp.png">
+                <div class="award-item">483</div> <img src="reddit-awards-main/Mithril.gif">
+                <div class="award-item">395</div> <img src="reddit-awards-main/n94bgm83in941_ItsCute.png">
+                <div class="award-item">312</div> <img src="reddit-awards-main/nvfe4gyawnf51_Dread.png">
+                <div class="award-item">69</div> <img src="reddit-awards-main/p4yzxkaed5f61_oldtakemyenergy.png">
+                <div class="award-item">200</div> <img src="reddit-awards-main/platinum.png">
+                <div class="award-item">30</div> <img src="reddit-awards-main/rc5iesz2z8t41_Snek.png">
+                <div class="award-item">67</div> <img src="reddit-awards-main/ree13odobef41_StonksFalling.png">
+                <div class="award-item">190</div> <img src="reddit-awards-main/Rocket_512.gif">
+                <div class="award-item">258</div> <img src="reddit-awards-main/s5edqq9abef41_StonksRising.png">
+                <div class="award-item">25</div> <img src="reddit-awards-main/side_vote_512.gif">
+                <div class="award-item">242</div> <img src="reddit-awards-main/silver.png">
+                <div class="award-item">263</div> <img src="reddit-awards-main/SnooClappingPremium_512.gif">
+                <div class="award-item">497</div> <img src="reddit-awards-main/SnooClappingPremium_512.png">
+                <div class="award-item">369</div> <img src="reddit-awards-main/SnooClapping_512.gif">
+                <div class="award-item">267</div> <img src="reddit-awards-main/SnooClapping_512.png">
+                <div class="award-item">487</div> <img src="reddit-awards-main/Spits_drink_512.gif">
+                <div class="award-item">216</div> <img src="reddit-awards-main/Spits_drink_512.png">
+                <div class="award-item">267</div> <img src="reddit-awards-main/Starstruck_512.gif">
+                <div class="award-item">158</div> <img src="reddit-awards-main/Superheart_512.gif">
+                <div class="award-item">369</div> <img src="reddit-awards-main/Superheart_512.png">
+                <div class="award-item">235</div> <img src="reddit-awards-main/TableSlap_512.gif">
+                <div class="award-item">470</div> <img src="reddit-awards-main/TableSlap_512.png">
+                <div class="award-item">38</div> <img src="reddit-awards-main/TakeMyPower_512.gif">
+                <div class="award-item">11</div> <img src="reddit-awards-main/TakeMyPower_512.png">
+                <div class="award-item">295</div> <img src="reddit-awards-main/tcofsbf92md41_PressF.png">
+                <div class="award-item">74</div> <img src="reddit-awards-main/TeleportIn_512.gif">
+                <div class="award-item">497</div> <img src="reddit-awards-main/TeleportIn_512.png">
+                <div class="award-item">358</div> <img src="reddit-awards-main/TeleportOut_512.gif">
+                <div class="award-item">182</div> <img src="reddit-awards-main/TeleportOut_512.png">
+                <div class="award-item">3</div> <img src="reddit-awards-main/Timeless_512.gif">
+                <div class="award-item">96</div> <img src="reddit-awards-main/Train_silver_512.gif">
+                <div class="award-item">325</div> <img src="reddit-awards-main/Train_silver_512.png">
+                <div class="award-item">252</div> <img src="reddit-awards-main/trfv6ems1md41_BlessUp.png">
+                <div class="award-item">14</div> <img src="reddit-awards-main/Trinity.gif">
+                <div class="award-item">63</div> <img src="reddit-awards-main/Updoot_512.gif">
+                <div class="award-item">212</div> <img src="reddit-awards-main/Updoot_512.png">
+                <div class="award-item">399</div> <img src="reddit-awards-main/v1mxw8i6wnf51_Heartwarming.png">
+                <div class="award-item">161</div> <img src="reddit-awards-main/vu6om0xnb7e41_This.png">
+                <div class="award-item">273</div> <img src="reddit-awards-main/wa987k0p4v541_MindBlown.png">
+                <div class="award-item">419</div> <img src="reddit-awards-main/wait_what_512.gif">
+                <div class="award-item">401</div> <img src="reddit-awards-main/wg3lzllyg9n41_PotoCoins.png">
+                <div class="award-item">378</div> <img src="reddit-awards-main/Woah_dude_512.gif">
+                <div class="award-item">404</div> <img src="reddit-awards-main/x52x5be57fd41_GOAT.png">
+                <div class="award-item">173</div> <img src="reddit-awards-main/xe5mw55w5v541_BlessUp.png">
+                <div class="award-item">401</div> <img src="reddit-awards-main/zc4a9vk5zmc51_BuffDoge.png">
+
+
+
+            </div>
+        </section>
+    </main>
+
+    <aside class="sidebar">
+        <div class="sidebar-card">
+            <div class="card-title">r/MeKnowBetter:3</div>
+            <p style="font-size: 14px;">Everybody is smarter than you. Cry about it</p>
+            <button class="btn-join">Join</button>
+        </div>
+    </aside>
+</div>
+
+</body>
+</html>

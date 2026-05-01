@@ -1,100 +1,39 @@
+#!/usr/bin/env python3
 from blessed import Terminal
 
 term = Terminal()
-print(term.clear + term.hide_cursor)
-x = 1
-y = 3
-memory_X = []
-memory_O = []
-following = 0
-WINNING_COMBOS = [
-    [[3, 2], [9, 2], [15, 2]], [[3, 5], [9, 5], [15, 5]], [[3, 8], [9, 8], [15, 8]],
-    [[3, 2], [3, 5], [3, 8]], [[9, 2], [9, 5], [9, 8]], [[15, 2], [15, 5], [15, 8]],
-    [[3, 2], [9, 5], [15, 8]], [[15, 2], [9, 5], [3, 8]]]
-# Use the location context manager to ensure the cursor
-# returns to its original position afterward
 
-board = """\
-   a     b     c
-      |     |     
-1  -  |  -  |  -  
- _____|_____|_____
-      |     |     
-2  -  |  -  |  -  
- _____|_____|_____
-      |     |     
-3  -  |  -  |  -  
-      |     |     """
+with term.cbreak(), term.fullscreen(), term.mouse_enabled():
+    print(term.clear)
+    
+    # Rajzolunk két gombot "kézzel"
+    # YES gomb helye: X=10, Y=5
+    # NO gomb helye:  X=20, Y=5
+    print(term.move_xy(10, 5) + term.on_green("  IGEN  "))
+    print(term.move_xy(20, 5) + term.on_red("  NEM   "))
+    print(term.move_xy(10, 8) + "Kattints az egyikre! (vagy 'q' a kilépéshez)")
 
-with term.location(0, 0):
-    print(board)
-
-with term.cbreak():
     while True:
-        with term.location(y, x):
-            print("ˇ")
+        inp = term.inkey()
 
-            key = term.inkey()
+        if inp == 'q':
+            break
 
-            with term.location(y, x):
-                print(" ", end="")
+        # Ha egérkattintás történt
+        if inp.name == 'MOUSE_LEFT':
+            mx, my = inp.mouse_xy
+            
+            # Megnézzük, hogy az IGEN gomb területén van-e az egér
+            # (X 10 és 17 között, Y pedig pont az 5-ös sorban)
+            if 10 <= mx <= 17 and my == 5:
+                print(term.move_xy(10, 10) + term.clear_eol + "Azt mondtad: IGEN! ")
+            
+            # Megnézzük, hogy a NEM gomb területén van-e
+            # (X 20 és 27 között, Y pedig az 5-ös sorban)
+            elif 20 <= mx <= 27 and my == 5:
+                print(term.move_xy(10, 10) + term.clear_eol + "Azt mondtad: NEM!  ")
+            
+            else:
+                print(term.move_xy(10, 10) + term.clear_eol + f"Mellé ment: ({mx}, {my})")
 
-            if key == "w":
-                x = x - 3
-
-            if key == "s":
-                x = x + 3
-
-            if key == "d":
-                y = y + 6
-
-            if key == "a":
-                y = y - 6
-
-            if key == "q":
-                break
-
-        if x > 9:
-            x = x - 3
-
-        if x < 0:
-            x = x + 3
-
-        if y > 18:
-            y = y - 6
-
-        if y < 3:
-            y = y + 6
-
-        if key == " ":
-            if following == 0:
-                sub_memory = [y, x + 1]
-                if sub_memory not in memory_X and sub_memory not in memory_O:
-                    with term.location(y, x + 1):
-                        print("X")
-                        memory_X.append(sub_memory)
-                        following = following + 1
-                        if following > 1:
-                            following = 0
-            elif following == 1:
-                sub_memory = [y, x + 1]
-                if sub_memory not in memory_X and sub_memory not in memory_O:
-                    with term.location(y, x + 1):
-                        print("O")
-                        memory_O.append(sub_memory)
-                        following = following + 1
-                        if following > 1:
-                            following = 0
-            for i in WINNING_COMBOS:
-                if all(sub in memory_X for sub in i)==True:
-                    with term.location(15, 3):
-                            print("X wins")
-                if all(sub in memory_O for sub in i)==True:
-                    with term.location(15, 3):
-                            print("O wins")
-
-
-
-print(memory_X)
-print(memory_O)
-
+print(term.clear)
