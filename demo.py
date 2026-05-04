@@ -231,8 +231,6 @@ def game(x_won, o_won):
                                         print(i, end="")
                                         line_num2 = line_num2 + 1
                 if game_won == True:
-                    with term.location(1, 1):
-                        print(key.mouse_xy)
                     if (
                         key.name
                         and key.name.startswith("MOUSE_")
