@@ -5,28 +5,36 @@ from blessed import Terminal
 import random
 import time
 
+#dev note: az egyes bugos a pont számláló táblán
+
 music_stop = [False]
 mute = [False]
+kill = [False]
+x_won = 0
+o_won = 0
+newgame=[True]
 
-
-def music(stop, mute):
+def music(stop, kill):
     pygame.mixer.init()
-    while True:
+    while not kill[0]:
         for music in os.listdir("soundtrack"):
             pygame.mixer.music.load(f"soundtrack/{music}")
             pygame.mixer.music.play()
 
             while pygame.mixer.music.get_busy() or stop[0]:
                 time.sleep(1)
+                if kill[0]:
+                    return
 
 
-def game():
+def game(x_won, o_won):
     term = Terminal()
     print(term.clear + term.hide_cursor)
     x = 1
     y = 3
     memory_X = []
     memory_O = []
+    current_winner = ""
     following = 0
     WINNING_COMBOS = [
         [[3, 2], [9, 2], [15, 2]],
@@ -44,6 +52,7 @@ def game():
     )
     P_slam = pygame.mixer.Sound(f"sfx/P_slam.mp3")
     Win_slam = pygame.mixer.Sound(f"sfx/Win_slam.mp3")
+    Score_up= pygame.mixer.Sound(f"sfx/mixkit-arcade-bonus-alert-767.mp3")
 
     game_won = False
     line_num = 0
@@ -61,7 +70,8 @@ def game():
 3     |     |     
       |     |     """
 
-    with term.fullscreen(), term.cbreak():
+
+    with term.fullscreen(), term.cbreak(), term.mouse_enabled(report_motion=True):
 
         with term.location(0, 0):
             print(term.magenta_bold + board + term.normal)
@@ -74,7 +84,6 @@ def game():
 
         with term.location(22, 5):
             print("Esc/Q: Quit")
-
 
             while True:
                 with term.location(y, x):
@@ -89,8 +98,8 @@ def game():
                         print(" ", end="")
 
                     if key.name == "KEY_ESCAPE" or key == "q":
+                        newgame[0]=False
                         break
-
 
                     if game_won == False:
                         if key == "w" or key.name == "KEY_UP":
@@ -120,7 +129,10 @@ def game():
                     if key == " " or key.name == "KEY_ENTER":
                         if following == 0:
                             sub_memory = [y, x + 1]
-                            if sub_memory not in memory_X and sub_memory not in memory_O:
+                            if (
+                                sub_memory not in memory_X
+                                and sub_memory not in memory_O
+                            ):
                                 with term.location(y, x + 1):
                                     Place.play()
                                     print(term.white_bold + "X" + term.normal)
@@ -136,7 +148,10 @@ def game():
                                         following = 0
                         elif following == 1:
                             sub_memory = [y, x + 1]
-                            if sub_memory not in memory_X and sub_memory not in memory_O:
+                            if (
+                                sub_memory not in memory_X
+                                and sub_memory not in memory_O
+                            ):
                                 with term.location(y, x + 1):
                                     Place.play()
                                     print(term.white_bold + "O" + term.normal)
@@ -153,6 +168,8 @@ def game():
                         for i in WINNING_COMBOS:
                             if all(sub in memory_X for sub in i) == True:
                                 game_won = True
+                                x_won = x_won + 1
+                                current_winner = "X"
                                 with open("ASCII/P1.txt", encoding="utf-8") as f:
                                     for i in f:
                                         if line_num == 0:
@@ -170,6 +187,8 @@ def game():
                                     music_stop[0] = not music_stop[0]
                             if all(sub in memory_O for sub in i) == True:
                                 game_won = True
+                                o_won = o_won + 1
+                                current_winner = "O"
                                 with open("ASCII/P2.txt", encoding="utf-8") as f:
                                     for i in f:
                                         if line_num == 0:
@@ -206,13 +225,136 @@ def game():
                                     with term.location(90, line_num2):
                                         print(i, end="")
                                         line_num2 = line_num2 + 1
+                if game_won == True:
+                    with term.location(1, 1):
+                        print(key.mouse_xy)
+                    if (
+                        key.name
+                        and key.name.startswith("MOUSE_")
+                        and 90 <= key.mouse_xy[0] <= 108
+                        and 7 <= key.mouse_xy[1] <= 11
+                    ):
+                        with term.location(90, 11):
+                            print("‾" * 18, end="")
+                            if key.name == "MOUSE_LEFT":
+                                break
+                    else:
+                        with term.location(90, 11):
+                            print(" " * 18, end="")
+
+                    if (
+                        key.name
+                        and key.name.startswith("MOUSE_")
+                        and 169 <= key.mouse_xy[0] <= 182
+                        and 7 <= key.mouse_xy[1] <= 11
+                    ):
+                        with term.location(169, 11):
+                            print("‾" * 13, end="")
+                            if key.name == "MOUSE_LEFT":
+                                newgame[0]= not newgame[0]
+                                break
+                    else:
+                        with term.location(169, 11):
+                            print(" " * 13, end="")
+
+    if current_winner == "X":
+        with term.fullscreen(), term.cbreak():
+            pygame.mixer.music.stop()
+            kill[0] = not kill[0]
+            with open("ASCII/P1.txt", encoding="utf-8") as f:
+                for i, z in zip(f, range(7)):
+                    with term.location((int((term.width / 4)) - 19), 2 + z):
+                        print(i, end="")
+            with open("ASCII/DOUBLEPOINT.txt", encoding="utf-8") as f:
+                for i, z in zip(f, range(7)):
+                    with term.location((int((term.width / 4)) + 2), 2 + z):
+                        print(i, end="")
+            with open(f"numbers/{x_won-1}.txt", encoding="utf-8") as f:
+                for i, z in zip(f, range(7)):
+                    with term.location(int((term.width / 4) + 7), 2 + z):
+                        print(i, end="")
+            with open("ASCII/P2.txt", encoding="utf-8") as f:
+                for i, z in zip(f, range(7)):
+                    with term.location((int((term.width / 4) * 3) - 21), 2 + z):
+                        print(i, end="")
+            with open("ASCII/DOUBLEPOINT.TXT", encoding="utf-8") as f:
+                for i, z in zip(f, range(7)):
+                    with term.location((int((term.width / 4) * 3) + 2), 2 + z):
+                        print(i, end="")
+            with open(f"numbers/{o_won}.txt", encoding="utf-8") as f:
+                for i, z in zip(f, range(7)):
+                    with term.location((int((term.width / 4) * 3) + 7), 2 + z):
+                        print(i, end="")
+            time.sleep(1)
+            Score_up.play()
+            with open(f"numbers/{x_won}.txt", encoding="utf-8") as f:
+                for i, z in zip(f, range(7)):
+                    with term.location(int((term.width / 4) + 7), 2 + z):
+                        print(" " * 30, end="")
+            with open(f"numbers/{x_won}.txt", encoding="utf-8") as f:
+                for i, z in zip(f, range(7)):
+                    with term.location(int((term.width / 4) + 7), 2 + z):
+                        print(term.gold + i + term.normal, end="")
+            term.inkey()
+
+    if current_winner == "O":
+        with term.fullscreen(), term.cbreak():
+            pygame.mixer.music.stop()
+            kill[0] = not kill[0]
+            with open("ASCII/P1.txt", encoding="utf-8") as f:
+                for i, z in zip(f, range(7)):
+                    with term.location((int((term.width / 4)) - 19), 2 + z):
+                        print(i, end="")
+            with open("ASCII/DOUBLEPOINT.txt", encoding="utf-8") as f:
+                for i, z in zip(f, range(7)):
+                    with term.location((int((term.width / 4)) + 2), 2 + z):
+                        print(i, end="")
+            with open(f"numbers/{x_won}.txt", encoding="utf-8") as f:
+                for i, z in zip(f, range(7)):
+                    with term.location(int((term.width / 4) + 7), 2 + z):
+                        print(i, end="")
+            with open("ASCII/P2.txt", encoding="utf-8") as f:
+                for i, z in zip(f, range(7)):
+                    with term.location((int((term.width / 4) * 3) - 21), 2 + z):
+                        print(i, end="")
+            with open("ASCII/DOUBLEPOINT.TXT", encoding="utf-8") as f:
+                for i, z in zip(f, range(7)):
+                    with term.location((int((term.width / 4) * 3) + 2), 2 + z):
+                        print(i, end="")
+            with open(f"numbers/{o_won-1}.txt", encoding="utf-8") as f:
+                for i, z in zip(f, range(7)):
+                    with term.location((int((term.width / 4) * 3) + 7), 2 + z):
+                        print(i, end="")
+            time.sleep(1)
+            Score_up.play()
+            with open(f"numbers/{o_won}.txt", encoding="utf-8") as f:
+                for i, z in zip(f, range(7)):
+                    with term.location((int((term.width / 4) * 3) + 7), 2 + z):
+                        print(" " * 30, end="")
+            with open(f"numbers/{o_won}.txt", encoding="utf-8") as f:
+                for i, z in zip(f, range(7)):
+                    with term.location((int((term.width / 4) * 3) + 7), 2 + z):
+                        print(term.gold + i + term.normal, end="")
+            term.inkey()
 
 
-t1 = threading.Thread(target=music, daemon=True, args=(music_stop, mute,))
+t1 = threading.Thread(
+    target=music,
+    daemon=True,
+    args=(
+        music_stop,
+        kill,
+    ),
+)
 t2 = threading.Thread(
     target=game,
+    args=(
+        x_won, 
+        o_won,
+    )
 )
 
-t1.start()
-t2.start()
-t2.join()
+while newgame:
+    t1.start()
+    t2.start()
+    t2.join()
