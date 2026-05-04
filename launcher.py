@@ -43,8 +43,8 @@ if len(missing_libs) > 0:
             break
         elif answer == "no" or answer == "n":
             print("ERROR: A program működése során hibába ütközött (itt most lenne egy fingós vicc de a szüséges könyvtár hiányában elmarad)")
-            route = os.path.abspath("shitpost(WIP)/reddit.html")
-            print(f"SEGÍTSÉG: \033]8;;file://{route}\033\\https://www.reddit.com/r/MeKnowBetter:3/comments/1szp3wb\033]8;;\033\\")
+            route = os.path.abspath("shitpost/reddit.html")
+            print(f"SEGÍTSÉG: \x1b]8;;file://localhost/{route}\x1b\\\033[34mhttps://www.reddit.com/r/MeKnowBetter:3/comments/1szp3wb\033[0m\x1b]8;;\x1b\\")
             sys.exit()
 
 print("Loading....")
