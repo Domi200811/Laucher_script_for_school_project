@@ -298,7 +298,7 @@ def game(x_won, o_won):
                 for i, z in zip(f, range(7)):
                     with term.location(int((term.width / 4) + 7), 2 + z):
                         print(term.gold + i + term.normal, end="")
-            time.sleep(1)
+            time.sleep(2)
 
     if current_winner == "O":
         with term.fullscreen(), term.cbreak():
@@ -338,7 +338,7 @@ def game(x_won, o_won):
                 for i, z in zip(f, range(7)):
                     with term.location((int((term.width / 4) * 3) + 7), 2 + z):
                         print(term.gold + i + term.normal, end="")
-            time.sleep(1)
+            time.sleep(2)
 
     if current_winner == "":
         with term.fullscreen(), term.cbreak():
@@ -368,7 +368,7 @@ def game(x_won, o_won):
                 for i, z in zip(f, range(7)):
                     with term.location((int((term.width / 4) * 3) + 7), 2 + z):
                         print(i, end="")
-            time.sleep(1)
+            time.sleep(2)
     
     counter=0
     if newgame[0]==False:
