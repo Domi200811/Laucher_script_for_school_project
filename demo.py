@@ -4,12 +4,14 @@ import os
 from blessed import Terminal
 import random
 import time
+import climage
+import sys
 
 
 music_stop = [False]
 mute = [False]
 kill = [False]
-x_won = [0]
+x_won = []
 o_won = [0]
 newgame=[True]
 
@@ -88,7 +90,7 @@ def game(x_won, o_won):
             print("Esc/Q: Quit")
         
         with term.location(22, 7):
-            print(term.height)
+            print(term.width, term.height)
 
             while True:
                 with term.location(y, x):
@@ -260,6 +262,51 @@ def game(x_won, o_won):
                         with term.location(169, 11):
                             print(" " * 13, end="")
 
+    if x_won[0]>99 or o_won[0]>99:
+        with term.fullscreen(), term.cbreak():
+            pygame.mixer.music.pause()
+            music_stop[0] = not music_stop[0]
+            with open("ASCII/P1.txt", encoding="utf-8") as f:
+                for i, z in zip(f, range(7)):
+                    with term.location((int((term.width / 4)) - 19), 2 + z):
+                        print(i, end="")
+            with open("ASCII/DOUBLEPOINT.txt", encoding="utf-8") as f:
+                for i, z in zip(f, range(7)):
+                    with term.location((int((term.width / 4)) + 2), 2 + z):
+                        print(i, end="")
+            if current_winner.lower()=="x":
+                with open(f"numbers/{x_won[0]-1}.txt", encoding="utf-8") as f:
+                    for i, z in zip(f, range(7)):
+                        with term.location(int((term.width / 4) + 7), 2 + z):
+                            print(i, end="")
+            else:
+                with open(f"numbers/{x_won[0]}.txt", encoding="utf-8") as f:
+                    for i, z in zip(f, range(7)):
+                        with term.location(int((term.width / 4) + 7), 2 + z):
+                            print(i, end="")
+            with open("ASCII/P2.txt", encoding="utf-8") as f:
+                for i, z in zip(f, range(7)):
+                    with term.location((int((term.width / 4) * 3) - 21), 2 + z):
+                        print(i, end="")
+            with open("ASCII/DOUBLEPOINT.TXT", encoding="utf-8") as f:
+                for i, z in zip(f, range(7)):
+                    with term.location((int((term.width / 4) * 3) + 2), 2 + z):
+                        print(i, end="")
+            if current_winner.lower()=="o":
+                with open(f"numbers/{o_won[0]-1}.txt", encoding="utf-8") as f:
+                    for i, z in zip(f, range(7)):
+                        with term.location((int((term.width / 4) * 3) + 7), 2 + z):
+                            print(i, end="")
+            else:
+                with open(f"numbers/{o_won[0]}.txt", encoding="utf-8") as f:
+                    for i, z in zip(f, range(7)):
+                        with term.location((int((term.width / 4) * 3) + 7), 2 + z):
+                            print(i, end="")
+            time.sleep(2)
+        print(climage.convert('ASCII/TOUCH_GRASS.png', width=200, is_unicode=True), end="")
+        return
+
+
     if current_winner == "X":
         with term.fullscreen(), term.cbreak():
             pygame.mixer.music.pause()
@@ -405,7 +452,7 @@ t1 = threading.Thread(
     ),
 )
 t1.start()
-while newgame[0]:
+while newgame[0] and x_won[0]<100 and o_won[0]<100:
 
     t2 = threading.Thread(
         target=game,
