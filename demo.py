@@ -11,7 +11,7 @@ import sys
 music_stop = [False]
 mute = [False]
 kill = [False]
-x_won = []
+x_won = [0]
 o_won = [0]
 newgame=[True]
 
