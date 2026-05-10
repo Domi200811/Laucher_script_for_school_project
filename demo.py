@@ -7,13 +7,14 @@ import time
 import climage
 import sys
 
-
+term = Terminal()
 music_stop = [False]
 mute = [False]
 kill = [False]
 x_won = [0]
 o_won = [0]
 newgame=[True]
+version=""
 
 def music(stop, kill):
     pygame.mixer.init()
@@ -27,9 +28,99 @@ def music(stop, kill):
                 if kill[0]:
                     return
 
+def home_screen():
+    print(term.home + term.clear)
+    DISPLAY_TEXT_START="[ START ]"
+    DISPLAY_TEXT_LEAVE="[ LEAVE ]"
+    line_num=0
+    positon=0
+    with term.fullscreen(), term.cbreak(), term.hidden_cursor():
+        with open("ASCII/TIC-TAC-TOE.TXT", encoding="utf-8") as f:
+            for i in f:
+                with term.location(int(term.width/2-int(len(i)/2)), line_num):
+                    print(i)
+                    line_num+=1
+        while True:
+            
+            key=term.inkey(timeout=0.1)
+            if key.name=="KEY_UP":
+                positon-=1
+                if positon<0:
+                    positon=1
+            
+            if key.name=="KEY_DOWN":
+                positon+=1
+                if positon>1:
+                    positon=0
+            
+            
+                
+            with term.location(0, term.height-4):
+                if positon == 1:
+                    print(term.center(" "), end="") 
+                    print(term.center(DISPLAY_TEXT_START), end="")
+                if positon == 0:
+                    print(term.center(" "), end="")
+                    print(term.center(f"{term.bold}> {DISPLAY_TEXT_START} <{term.normal}"), end="")
+            
+            with term.location(0, term.height-2):
+                if positon == 0:
+                    print(term.center(" "), end="") 
+                    print(term.center(DISPLAY_TEXT_LEAVE), end="")
+                if positon == 1:
+                    print(term.center(" "), end="")
+                    print(term.center(f"{term.bold}> {DISPLAY_TEXT_LEAVE} <{term.normal}"), end="")
+            
+            if key.name=="KEY_ENTER" and positon == 1:
+                return sys.exit()
+            if key.name=="KEY_ENTER" and positon == 0:
+                return
+
+def version_selector():
+    print(term.home + term.clear)
+    DISPLAY_TEXT_LEGACY= "[ LEGACY ]"
+    DISPLAY_TEXT_GRAPHICAL= "[ VISUAL ]"
+    line_num=0
+    positon=0
+    with term.fullscreen(), term.cbreak(), term.hidden_cursor():
+        with open("ASCII/SELECT_VERSION.TXT", encoding="utf-8") as f:
+            for i in f:
+                with term.location(int(term.width/2-int(len(i)/2)), line_num):
+                    print(i)
+                    line_num+=1
+        while True:
+            
+            key=term.inkey(timeout=0.1)
+            if key.name=="KEY_UP":
+                positon-=1
+                if positon<0:
+                    positon=1
+            
+            if key.name=="KEY_DOWN":
+                positon+=1
+                if positon>1:
+                    positon=0
+            
+            
+                
+            with term.location(0, term.height-4):
+                if positon == 1:
+                    print(term.center(DISPLAY_TEXT_LEGACY), end="")
+                if positon == 0:
+                    print(term.center(f"{term.bold}> {DISPLAY_TEXT_LEGACY} <{term.normal}"), end="")
+            
+            with term.location(0, term.height-2):
+                if positon == 0:
+                    print(term.center(DISPLAY_TEXT_GRAPHICAL), end="")
+                if positon == 1:
+                    print(term.center(f"{term.bold}> {DISPLAY_TEXT_GRAPHICAL} <{term.normal}"), end="")
+            
+            if key.name=="KEY_ENTER" and positon == 0:
+                return "legacy"
+            if key.name=="KEY_ENTER" and positon == 1:
+                return "visual"
 
 def game(x_won, o_won):
-    term = Terminal()
     print(term.clear + term.hide_cursor)
     x = 1
     y = 3
@@ -75,7 +166,7 @@ def game(x_won, o_won):
       |     |     """
 
 
-    with term.fullscreen(), term.cbreak(), term.mouse_enabled(report_motion=True):
+    with term.fullscreen(), term.cbreak(), term.mouse_enabled(report_motion=True), term.hidden_cursor():
 
         with term.location(0, 0):
             print(term.magenta_bold + board + term.normal)
@@ -440,29 +531,34 @@ def game(x_won, o_won):
                         print(i)
                         counter= counter+1
 
+home_screen()
+version=version_selector()
 
+if version=="visual":
 
-
-t1 = threading.Thread(
-    target=music,
-    daemon=True,
-    args=(
-        music_stop,
-        kill,
-    ),
-)
-t1.start()
-while newgame[0] and x_won[0]<100 and o_won[0]<100:
-
-    t2 = threading.Thread(
-        target=game,
+    t1 = threading.Thread(
+        target=music,
+        daemon=True,
         args=(
-            x_won, 
-            o_won,
-        )
+            music_stop,
+            kill,
+        ),
     )
+    t1.start()
+    while newgame[0] and x_won[0]<100 and o_won[0]<100:
+
+        t2 = threading.Thread(
+            target=game,
+            args=(
+                x_won, 
+                o_won,
+            )
+        )
 
 
 
-    t2.start()
-    t2.join()
+        t2.start()
+        t2.join()
+
+elif version=="legacy":
+    pass
