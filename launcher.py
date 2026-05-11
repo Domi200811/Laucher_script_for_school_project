@@ -7,6 +7,9 @@ import time
 def install(package):
     subprocess.check_call([sys.executable, "-m", "pip", "install", package])
 
+def upgrade(package):
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "--upgrade", package])
+
 
 # =================================================================
 #                SZERKESZTHETŐ BEÁLLÍTÁSOK RÉSZE
@@ -24,6 +27,7 @@ libs = ["blessed", "pygame", "climage"]
 missing_libs = []
 
 
+
 for lib in libs:
     try:
         importlib.import_module(lib)
@@ -38,6 +42,7 @@ if len(missing_libs) > 0:
     while True:
         answer = input('Szeretné telepíteni őket? ["yes"/"no"] ').lower()
         if answer == "yes" or answer == "y":
+            upgrade("pip")
             for i in missing_libs:
                 install(i)
             break

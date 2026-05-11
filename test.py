@@ -1,3 +1,18 @@
-with open("ASCII/TIC-TAC-TOE.TXT", encoding="utf-8") as f:
-            ascii_lines = f.readlines()
-            print(ascii_lines)
+import time
+import pygame
+import random
+import os
+pygame.mixer.init()
+
+Place_value = (f"sfx/place_sounds/{random.choice(os.listdir('sfx/place_sounds'))}")
+Place= pygame.mixer.Sound(Place_value)
+
+
+
+
+while True:
+    Place_value = (f"sfx/place_sounds/{random.choice(os.listdir('sfx/place_sounds'))}")
+    Place= pygame.mixer.Sound(Place_value)
+    print(Place_value)
+    Place.play()
+    time.sleep(1)

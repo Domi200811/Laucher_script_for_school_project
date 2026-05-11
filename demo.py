@@ -196,6 +196,9 @@ def game(x_won, o_won):
         
 
             while True:
+                Place = pygame.mixer.Sound(
+                    f"sfx/place_sounds/{random.choice(os.listdir('sfx/place_sounds'))}"
+    )
                 with term.location(y, x):
                     if following == 0:
                         print(term.red_bold + "ˇ" + term.normal)
