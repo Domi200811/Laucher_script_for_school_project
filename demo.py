@@ -6,7 +6,6 @@ import random
 import time
 import climage
 import sys
-import random
 
 term = Terminal()
 music_stop = [False]
