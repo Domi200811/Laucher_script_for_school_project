@@ -47,11 +47,13 @@ if len(missing_libs) > 0:
                 install(i)
             break
         elif answer == "no" or answer == "n":
-            print("ERROR: A program működése során hibába ütközött (itt most lenne egy fingós vicc de a szüséges könyvtár hiányában elmarad)")
+            print("ERROR: A program működése során hibába ütközött (itt most lenne egy fingós vicc de a szükséges könyvtár hiányában elmarad)")
             route = os.path.abspath("shitpost/reddit.html")
             print(f"SEGÍTSÉG: \x1b]8;;file://localhost/{route}\x1b\\\033[34mhttps://www.reddit.com/r/MeKnowBetter:3/comments/1szp3wb\033[0m\x1b]8;;\x1b\\")
             sys.exit()
 
-print("Loading....")
-time.sleep(1)
+for i in "Loading........":
+    print(i, end="", flush=True)
+    time.sleep(0.15)
+print("")
 subprocess.run([sys.executable, APP_PATH])
