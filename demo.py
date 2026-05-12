@@ -33,7 +33,7 @@ def music(stop, kill):
 def home_screen():
     pygame.mixer.init()
     pygame.mixer.music.load(f"home_screen_tracks/lofi[3_hours].mp3")
-    pygame.mixer.music.play(loops=-1, start=random.randint(0, 4800), fade_ms=500)
+    pygame.mixer.music.play(loops=-1, start=random.randint(0, 4800), fade_ms=1000)
     print(term.home + term.clear)
     select = pygame.mixer.Sound(f"sfx/voicebosch-menu-select-button-182476.mp3")
     highlight = pygame.mixer.Sound(f"sfx/creatorshome-on-001-337979.mp3")
@@ -85,7 +85,9 @@ def home_screen():
                     )
 
             if key.name == "KEY_ENTER" and positon == 1:
+                pygame.mixer.music.fadeout(500)
                 select.play()
+                time.sleep(0.5)
                 return sys.exit()
             if key.name == "KEY_ENTER" and positon == 0:
                 select.play()
@@ -148,6 +150,7 @@ def version_selector():
 
             if key.name == "KEY_ENTER" and positon == 0:
                 select.play()
+                pygame.mixer.music.fadeout(300)
                 return "legacy"
             if key.name == "KEY_ENTER" and positon == 1:
                 while pygame.mixer.get_busy():
