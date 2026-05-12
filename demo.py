@@ -13,8 +13,9 @@ mute = [False]
 kill = [False]
 x_won = [0]
 o_won = [0]
-newgame=[True]
-version=""
+newgame = [True]
+version = ""
+
 
 def music(stop, kill):
     pygame.mixer.init()
@@ -28,110 +29,133 @@ def music(stop, kill):
                 if kill[0]:
                     return
 
+
 def home_screen():
     pygame.mixer.init()
     pygame.mixer.music.load(f"home_screen_tracks/lofi[3_hours].mp3")
-    pygame.mixer.music.play(loops=-1, start=random.randint(0,4800), fade_ms=500)
+    pygame.mixer.music.play(loops=-1, start=random.randint(0, 4800), fade_ms=500)
     print(term.home + term.clear)
-    select=pygame.mixer.Sound(f"sfx/voicebosch-menu-select-button-182476.mp3")
-    highlight=pygame.mixer.Sound(f"sfx/creatorshome-on-001-337979.mp3")
-    DISPLAY_TEXT_START="[ START ]"
-    DISPLAY_TEXT_LEAVE="[ LEAVE ]"
-    line_num=0
-    positon=0
+    select = pygame.mixer.Sound(f"sfx/voicebosch-menu-select-button-182476.mp3")
+    highlight = pygame.mixer.Sound(f"sfx/creatorshome-on-001-337979.mp3")
+    DISPLAY_TEXT_START = "[ START ]"
+    DISPLAY_TEXT_LEAVE = "[ LEAVE ]"
+    line_num = 0
+    positon = 0
     with term.fullscreen(), term.cbreak(), term.hidden_cursor():
         with open("ASCII/TIC-TAC-TOE.TXT", encoding="utf-8") as f:
             for i in f:
-                with term.location(int(term.width/2-int(len(i)/2)), line_num):
+                with term.location(int(term.width / 2 - int(len(i) / 2)), line_num):
                     print(i, end="")
-                    line_num+=1
+                    line_num += 1
         while True:
-            
-            key=term.inkey(timeout=0.1)
-            if key.name=="KEY_UP":
-                positon-=1
-                if positon<0:
-                    positon=1
+
+            key = term.inkey(timeout=0.1)
+            if key.name == "KEY_UP":
+                positon -= 1
+                if positon < 0:
+                    positon = 1
                 highlight.play()
-            
-            if key.name=="KEY_DOWN":
-                positon+=1
-                if positon>1:
-                    positon=0
+
+            if key.name == "KEY_DOWN":
+                positon += 1
+                if positon > 1:
+                    positon = 0
                 highlight.play()
-            
-                
-            with term.location(0, line_num+2):
-                if positon == 1: 
+
+            with term.location(0, line_num + 2):
+                if positon == 1:
                     print(term.center(DISPLAY_TEXT_START), end="")
                 if positon == 0:
-                    print(term.center(f"{term.bold}> {DISPLAY_TEXT_START} <{term.normal}"), end="")
-            
-            with term.location(0, line_num+4):
+                    print(
+                        term.center(
+                            f"{term.bold}> {DISPLAY_TEXT_START} <{term.normal}"
+                        ),
+                        end="",
+                    )
+
+            with term.location(0, line_num + 4):
                 if positon == 0:
                     print(term.center(DISPLAY_TEXT_LEAVE), end="")
                 if positon == 1:
-                    print(term.center(f"{term.bold}> {DISPLAY_TEXT_LEAVE} <{term.normal}"), end="")
-            
-            if key.name=="KEY_ENTER" and positon == 1:
+                    print(
+                        term.center(
+                            f"{term.bold}> {DISPLAY_TEXT_LEAVE} <{term.normal}"
+                        ),
+                        end="",
+                    )
+
+            if key.name == "KEY_ENTER" and positon == 1:
                 select.play()
                 return sys.exit()
-            if key.name=="KEY_ENTER" and positon == 0:
+            if key.name == "KEY_ENTER" and positon == 0:
                 select.play()
                 return
+
 
 def version_selector():
     pygame.mixer.init()
     print(term.home + term.clear)
-    select=pygame.mixer.Sound(f"sfx/freesound_community-ui_correct_button2-103167.mp3")
-    highlight=pygame.mixer.Sound(f"sfx/creatorshome-on-001-337979.mp3")
-    DISPLAY_TEXT_LEGACY= "[ LEGACY ]"
-    DISPLAY_TEXT_GRAPHICAL= "[ VISUAL ]"
-    line_num=0
-    positon=0
+    select = pygame.mixer.Sound(
+        f"sfx/freesound_community-ui_correct_button2-103167.mp3"
+    )
+    highlight = pygame.mixer.Sound(f"sfx/creatorshome-on-001-337979.mp3")
+    DISPLAY_TEXT_LEGACY = "[ LEGACY ]"
+    DISPLAY_TEXT_GRAPHICAL = "[ VISUAL ]"
+    line_num = 0
+    positon = 0
     with term.fullscreen(), term.cbreak(), term.hidden_cursor():
         with open("ASCII/SELECT_VERSION.TXT", encoding="utf-8") as f:
             for i in f:
-                with term.location(int(term.width/2-int(len(i)/2)), line_num):
+                with term.location(int(term.width / 2 - int(len(i) / 2)), line_num):
                     print(i)
-                    line_num+=1
+                    line_num += 1
         while True:
-            
-            key=term.inkey(timeout=0.1)
-            if key.name=="KEY_UP":
-                positon-=1
-                if positon<0:
-                    positon=1
+
+            key = term.inkey(timeout=0.1)
+            if key.name == "KEY_UP":
+                positon -= 1
+                if positon < 0:
+                    positon = 1
                 highlight.play()
-            
-            if key.name=="KEY_DOWN":
-                positon+=1
-                if positon>1:
-                    positon=0
+
+            if key.name == "KEY_DOWN":
+                positon += 1
+                if positon > 1:
+                    positon = 0
                 highlight.play()
-            
-                
-            with term.location(0, line_num+2):
+
+            with term.location(0, line_num + 2):
                 if positon == 1:
                     print(term.center(DISPLAY_TEXT_LEGACY), end="")
                 if positon == 0:
-                    print(term.center(f"{term.bold}> {DISPLAY_TEXT_LEGACY} <{term.normal}"), end="")
-            
-            with term.location(0, line_num+4):
+                    print(
+                        term.center(
+                            f"{term.bold}> {DISPLAY_TEXT_LEGACY} <{term.normal}"
+                        ),
+                        end="",
+                    )
+
+            with term.location(0, line_num + 4):
                 if positon == 0:
                     print(term.center(DISPLAY_TEXT_GRAPHICAL), end="")
                 if positon == 1:
-                    print(term.center(f"{term.bold}> {DISPLAY_TEXT_GRAPHICAL} <{term.normal}"), end="")
-            
-            if key.name=="KEY_ENTER" and positon == 0:
+                    print(
+                        term.center(
+                            f"{term.bold}> {DISPLAY_TEXT_GRAPHICAL} <{term.normal}"
+                        ),
+                        end="",
+                    )
+
+            if key.name == "KEY_ENTER" and positon == 0:
                 select.play()
                 return "legacy"
-            if key.name=="KEY_ENTER" and positon == 1:
+            if key.name == "KEY_ENTER" and positon == 1:
                 while pygame.mixer.get_busy():
                     pass
                 select.play()
                 pygame.mixer.music.fadeout(300)
                 return "visual"
+
 
 def game(x_won, o_won):
     print(term.clear + term.hide_cursor)
@@ -157,10 +181,10 @@ def game(x_won, o_won):
     )
     P_slam = pygame.mixer.Sound(f"sfx/P_slam.mp3")
     Win_slam = pygame.mixer.Sound(f"sfx/Win_slam.mp3")
-    Score_up= pygame.mixer.Sound(f"sfx/mixkit-arcade-bonus-alert-767.mp3")
+    Score_up = pygame.mixer.Sound(f"sfx/mixkit-arcade-bonus-alert-767.mp3")
 
     pygame.mixer.music.unpause()
-    music_stop[0]=False
+    music_stop[0] = False
 
     game_won = False
     line_num = 0
@@ -178,8 +202,9 @@ def game(x_won, o_won):
 3     |     |     
       |     |     """
 
-
-    with term.fullscreen(), term.cbreak(), term.mouse_enabled(report_motion=True), term.hidden_cursor():
+    with term.fullscreen(), term.cbreak(), term.mouse_enabled(
+        report_motion=True
+    ), term.hidden_cursor():
 
         with term.location(0, 0):
             print(term.magenta_bold + board + term.normal)
@@ -192,12 +217,11 @@ def game(x_won, o_won):
 
         with term.location(22, 5):
             print("Esc/Q: Quit")
-        
 
             while True:
                 Place = pygame.mixer.Sound(
                     f"sfx/place_sounds/{random.choice(os.listdir('sfx/place_sounds'))}"
-    )
+                )
                 with term.location(y, x):
                     if following == 0:
                         print(term.red_bold + "ˇ" + term.normal)
@@ -210,7 +234,7 @@ def game(x_won, o_won):
                         print(" ", end="")
 
                     if key.name == "KEY_ESCAPE" or key == "q":
-                        newgame[0]=False
+                        newgame[0] = False
                         return
 
                     if game_won == False:
@@ -334,40 +358,43 @@ def game(x_won, o_won):
                         if game_won == True:
                             with open("ASCII/REMATCH.txt", encoding="utf-8") as f:
                                 for i in f:
-                                    with term.location(90, line_num2):
+                                    with term.location(
+                                        int(term.width * 0.75 - len(i) / 2), line_num2
+                                    ):
                                         print(i, end="")
                                         line_num2 = line_num2 + 1
                 if game_won == True:
+                    start_x = int(term.width * 0.75 - len(i) / 2)
                     if (
                         key.name
                         and key.name.startswith("MOUSE_")
-                        and 90 <= key.mouse_xy[0] <= 108
+                        and start_x <= key.mouse_xy[0] <= start_x + 18
                         and 7 <= key.mouse_xy[1] <= 11
                     ):
-                        with term.location(90, 11):
+                        with term.location(start_x, 11):
                             print("‾" * 18, end="")
                             if key.name == "MOUSE_LEFT":
                                 break
                     else:
-                        with term.location(90, 11):
+                        with term.location(start_x, 11):
                             print(" " * 18, end="")
 
                     if (
                         key.name
                         and key.name.startswith("MOUSE_")
-                        and 169 <= key.mouse_xy[0] <= 182
+                        and start_x + 79 <= key.mouse_xy[0] <= start_x + 92
                         and 7 <= key.mouse_xy[1] <= 11
                     ):
-                        with term.location(169, 11):
+                        with term.location(start_x + 79, 11):
                             print("‾" * 13, end="")
                             if key.name == "MOUSE_LEFT":
-                                newgame[0]= not newgame[0]
+                                newgame[0] = not newgame[0]
                                 break
                     else:
-                        with term.location(169, 11):
+                        with term.location(start_x + 79, 11):
                             print(" " * 13, end="")
 
-    if x_won[0]>99 or o_won[0]>99:
+    if x_won[0] > 99 or o_won[0] > 99:
         with term.fullscreen(), term.cbreak():
             pygame.mixer.music.pause()
             music_stop[0] = not music_stop[0]
@@ -379,7 +406,7 @@ def game(x_won, o_won):
                 for i, z in zip(f, range(7)):
                     with term.location((int((term.width / 4)) + 2), 2 + z):
                         print(i, end="")
-            if current_winner.lower()=="x":
+            if current_winner.lower() == "x":
                 with open(f"numbers/{x_won[0]-1}.txt", encoding="utf-8") as f:
                     for i, z in zip(f, range(7)):
                         with term.location(int((term.width / 4) + 7), 2 + z):
@@ -397,7 +424,7 @@ def game(x_won, o_won):
                 for i, z in zip(f, range(7)):
                     with term.location((int((term.width / 4) * 3) + 2), 2 + z):
                         print(i, end="")
-            if current_winner.lower()=="o":
+            if current_winner.lower() == "o":
                 with open(f"numbers/{o_won[0]-1}.txt", encoding="utf-8") as f:
                     for i, z in zip(f, range(7)):
                         with term.location((int((term.width / 4) * 3) + 7), 2 + z):
@@ -408,9 +435,10 @@ def game(x_won, o_won):
                         with term.location((int((term.width / 4) * 3) + 7), 2 + z):
                             print(i, end="")
             time.sleep(2)
-        print(climage.convert('ASCII/TOUCH_GRASS.png', width=200, is_unicode=True), end="")
+        print(
+            climage.convert("ASCII/TOUCH_GRASS.png", width=200, is_unicode=True), end=""
+        )
         return
-
 
     if current_winner == "X":
         with term.fullscreen(), term.cbreak():
@@ -521,34 +549,35 @@ def game(x_won, o_won):
                     with term.location((int((term.width / 4) * 3) + 7), 2 + z):
                         print(i, end="")
             time.sleep(2)
-    
-    counter=0
-    if newgame[0]==False:
-        if x_won[0]>o_won[0]:
+
+    counter = 0
+    if newgame[0] == False:
+        if x_won[0] > o_won[0]:
             with open("ASCII/PLAYER_1_WON.TXT", encoding="utf-8") as f:
                 for i in f:
-                    with term.location(int(term.width/2-(len(i)/2)), counter):
+                    with term.location(int(term.width / 2 - (len(i) / 2)), counter):
                         print(i)
-                        counter= counter+1
-    
-        if x_won[0]<o_won[0]:
+                        counter = counter + 1
+
+        if x_won[0] < o_won[0]:
             with open("ASCII/PLAYER_2_WON.TXT", encoding="utf-8") as f:
                 for i in f:
-                    with term.location(int(term.width/2-(len(i)/2)), counter):
+                    with term.location(int(term.width / 2 - (len(i) / 2)), counter):
                         print(i)
-                        counter= counter+1
-        
-        if x_won[0]==o_won[0]:
+                        counter = counter + 1
+
+        if x_won[0] == o_won[0]:
             with open("ASCII/ITS_A_TIE.TXT", encoding="utf-8") as f:
                 for i in f:
-                    with term.location(int(term.width/2-(len(i)/2)), counter):
+                    with term.location(int(term.width / 2 - (len(i) / 2)), counter):
                         print(i)
-                        counter= counter+1
+                        counter = counter + 1
+
 
 home_screen()
-version=version_selector()
+version = version_selector()
 
-if version=="visual":
+if version == "visual":
 
     t1 = threading.Thread(
         target=music,
@@ -559,20 +588,18 @@ if version=="visual":
         ),
     )
     t1.start()
-    while newgame[0] and x_won[0]<100 and o_won[0]<100:
+    while newgame[0] and x_won[0] < 100 and o_won[0] < 100:
 
         t2 = threading.Thread(
             target=game,
             args=(
-                x_won, 
+                x_won,
                 o_won,
-            )
+            ),
         )
-
-
 
         t2.start()
         t2.join()
 
-elif version=="legacy":
+elif version == "legacy":
     pass
