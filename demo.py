@@ -596,17 +596,6 @@ if version == "visual":
     )
     t1.start()
     while newgame[0] and x_won[0] < 100 and o_won[0] < 100:
-
-        t2 = threading.Thread(
-            target=game,
-            args=(
-                x_won,
-                o_won,
-            ),
-        )
-
-        t2.start()
-        t2.join()
-
+        game(x_won, o_won)
 elif version == "legacy":
     pass
