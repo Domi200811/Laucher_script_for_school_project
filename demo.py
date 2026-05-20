@@ -6,6 +6,7 @@ import random
 import time
 import climage
 import sys
+from legacy.main import legacy 
 
 term = Terminal()
 music_stop = [False]
@@ -598,4 +599,4 @@ if version == "visual":
     while newgame[0] and x_won[0] < 100 and o_won[0] < 100:
         game(x_won, o_won)
 elif version == "legacy":
-    pass
+    legacy()
