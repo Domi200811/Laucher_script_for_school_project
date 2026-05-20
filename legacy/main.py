@@ -54,11 +54,20 @@ def legacy():
             (board[1][3]=='X' and board[2][2]=='X' and board[3][1]=='X' )):
             return True
         
+    # def check_draw(board):
+    #     if board[1][1] and board[1][2] and board[1][3] and board[1][2] and board[2][2] and board[2][3] and board[3][1] and board[3][1] and board[3][3] != None:
+    #         return True
+    #     else: return False
     def check_draw(board):
-        if board[1][1] and board[1][2] and board[1][3] and board[1][2] and board[2][2] and board[2][3] and board[3][1] and board[3][1] and board[3][3] != None:
+        global dontetlen_x_szamlalo
+        dontetlen_x_szamlalo = 0
+        for i in board:
+            for a in i:
+                if a == "X":
+                    dontetlen_x_szamlalo +=1
+        if dontetlen_x_szamlalo == 5 and not check_winnerX :
             return True
-        else: return False
-
+        
     # game
     print('Üdvölünk a DBM csapat amőba játékában!')
 
@@ -69,19 +78,27 @@ def legacy():
         #játéktábla xx
     tabla = []
 
-    info_sor = ['', 1, 2 ,3]
-    tabla.append(info_sor)
-    a = ['A', None, None, None]
-    tabla.append(a)
-    b = ['B', None, None, None]
-    tabla.append(b)
-    c = ['C', None, None, None]
-    tabla.append(c)
+    # info_sor = ['', 1, 2 ,3]
+    # tabla.append(info_sor)
+    # a = ['A', None, None, None]
+    # tabla.append(a)
+    # b = ['B', None, None, None]
+    # tabla.append(b)
+    # c = ['C', None, None, None]
+    # tabla.append(c)
 
 
         #játéktábla használata
     Run = True
     while Run:
+        info_sor = ['', 1, 2 ,3]
+        tabla.append(info_sor)
+        a = ['A', None, None, None]
+        tabla.append(a)
+        b = ['B', None, None, None]
+        tabla.append(b)
+        c = ['C', None, None, None]
+        tabla.append(c)
         x1 = None
         o1 = None
         x2 = None
@@ -116,6 +133,7 @@ def legacy():
             regame = input('Szeretnél tovább játszani? I/N\n').capitalize()
             if regame == 'I':
                 print('Új játék!')
+                tabla.clear()
                 continue
             if regame == 'N':
                 print('Köszönjük a játékot!')
@@ -126,6 +144,7 @@ def legacy():
             regame = input('Szeretnél tovább játszani? I/N\n').capitalize()
             if regame == 'I':
                 print('Új játék!')
+                tabla.clear()
                 continue
             if regame == 'N':
                 print('Köszönjük a játékot!')
@@ -136,6 +155,7 @@ def legacy():
             regame = input('Szeretnél tovább játszani? I/N\n').capitalize()
             if regame == 'I':
                 print('Új játék!')
+                tabla.clear()
                 continue
             if regame == 'N':
                 print('Köszönjük a játékot!')
@@ -175,6 +195,7 @@ def legacy():
             regame = input('Szeretnél tovább játszani? I/N\n').capitalize()
             if regame == 'I':
                 print('Új játék!')
+                tabla.clear()
                 continue
             if regame == 'N':
                 print('Köszönjük a játékot!')
@@ -185,6 +206,7 @@ def legacy():
             regame = input('Szeretnél tovább játszani? I/N\n').capitalize()
             if regame == 'I':
                 print('Új játék!')
+                tabla.clear()
                 continue
             if regame == 'N':
                 print('Köszönjük a játékot!')
@@ -195,6 +217,7 @@ def legacy():
             regame = input('Szeretnél tovább játszani? I/N\n').capitalize()
             if regame == 'I':
                 print('Új játék!')
+                tabla.clear()
                 continue
             if regame == 'N':
                 print('Köszönjük a játékot!')

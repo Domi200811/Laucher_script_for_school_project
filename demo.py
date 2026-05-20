@@ -84,9 +84,9 @@ def home_screen():
                         ),
                         end="",
                     )
-            """ with term.location(0, term.height - 1):
-                copyright_text = f"© 2026 CSAPATNÉV "
-                print(term.rjust(term.bright_black + copyright_text + term.normal), end="") """
+            with term.location(0, term.height - 1):
+                copyright_text = f"© 2026 DBM "
+                print(term.rjust(term.bright_black + copyright_text + term.normal), end="") 
 
             if key.name == "KEY_ENTER" and positon == 1:
                 pygame.mixer.music.fadeout(500)
