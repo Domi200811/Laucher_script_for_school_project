@@ -23,7 +23,7 @@ APP_PATH = "demo.py"  # Ide írd a fő program nevét/elérhetőségét
 
 APP_PATH = os.path.abspath(APP_PATH)
 
-libs = ["blessed", "pygame", "climage"]
+libs = ["blessed", "pygame", "climage", "pyfiglet"]
 missing_libs = []
 
 
