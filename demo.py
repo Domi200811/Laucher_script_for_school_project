@@ -92,7 +92,7 @@ def home_screen():
                 pygame.mixer.music.fadeout(500)
                 select.play()
                 time.sleep(0.5)
-                return sys.exit()
+                sys.exit()
             if key.name == "KEY_ENTER" and positon == 0:
                 select.play()
                 return
@@ -224,6 +224,9 @@ def game(x_won, o_won):
 
         with term.location(22, 5):
             print("Esc/Q: Quit")
+            
+        with term.location(22, 7):
+            print("N: Next Song")
 
             while True:
                 Place = pygame.mixer.Sound(
@@ -244,8 +247,11 @@ def game(x_won, o_won):
                     if key.name == "KEY_ESCAPE" or key == "q":
                         newgame[0] = False
                         return
+                    if key == "n":
+                            pygame.mixer.music.stop()
 
                     if game_won == False:
+                        
                         if key == "w" or key.name == "KEY_UP":
                             x = x - 3
 
