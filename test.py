@@ -1,18 +1,16 @@
+from blessed import Terminal
 import time
-import pygame
 import random
-import os
-pygame.mixer.init()
 
-Place_value = (f"sfx/place_sounds/{random.choice(os.listdir('sfx/place_sounds'))}")
-Place= pygame.mixer.Sound(Place_value)
+def transition():
+    term= Terminal()
+    with term.hidden_cursor():
+        temp=list(range(term.height))
+        random.shuffle(temp)
+        for i in temp:
+            with term.location(0, i):
+                print("█"*term.width, end="", flush=False)
+                time.sleep(0.1)
+        term.inkey()
 
-
-
-
-while True:
-    Place_value = (f"sfx/place_sounds/{random.choice(os.listdir('sfx/place_sounds'))}")
-    Place= pygame.mixer.Sound(Place_value)
-    print(Place_value)
-    Place.play()
-    time.sleep(1)
+transition()

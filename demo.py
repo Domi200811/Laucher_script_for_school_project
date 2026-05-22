@@ -6,7 +6,7 @@ import random
 import time
 import climage
 import sys
-from legacy.main import legacy 
+from legacy.main import legacy
 
 term = Terminal()
 music_stop = [False]
@@ -16,6 +16,7 @@ x_won = [0]
 o_won = [0]
 newgame = [True]
 version = ""
+mode = ""
 
 
 def music(stop, kill):
@@ -86,7 +87,9 @@ def home_screen():
                     )
             with term.location(0, term.height - 1):
                 copyright_text = f"© 2026 DBM "
-                print(term.rjust(term.bright_black + copyright_text + term.normal), end="") 
+                print(
+                    term.rjust(term.bright_black + copyright_text + term.normal), end=""
+                )
 
             if key.name == "KEY_ENTER" and positon == 1:
                 pygame.mixer.music.fadeout(500)
@@ -101,12 +104,10 @@ def home_screen():
 def version_selector():
     pygame.mixer.init()
     print(term.home + term.clear)
-    select = pygame.mixer.Sound(
-        f"sfx/freesound_community-ui_correct_button2-103167.mp3"
-    )
+    select = pygame.mixer.Sound(f"sfx/voicebosch-menu-select-button-182476.mp3")
     highlight = pygame.mixer.Sound(f"sfx/creatorshome-on-001-337979.mp3")
     DISPLAY_TEXT_LEGACY = "[ LEGACY ]"
-    DISPLAY_TEXT_GRAPHICAL = "[ VISUAL ]"
+    DISPLAY_TEXT_VISUAL = "[ VISUAL ]"
     line_num = 0
     positon = 0
     with term.fullscreen(), term.cbreak(), term.hidden_cursor():
@@ -143,11 +144,11 @@ def version_selector():
 
             with term.location(0, line_num + 4):
                 if positon == 0:
-                    print(term.center(DISPLAY_TEXT_GRAPHICAL), end="")
+                    print(term.center(DISPLAY_TEXT_VISUAL), end="")
                 if positon == 1:
                     print(
                         term.center(
-                            f"{term.bold}> {DISPLAY_TEXT_GRAPHICAL} <{term.normal}"
+                            f"{term.bold}> {DISPLAY_TEXT_VISUAL} <{term.normal}"
                         ),
                         end="",
                     )
@@ -157,11 +158,95 @@ def version_selector():
                 pygame.mixer.music.fadeout(300)
                 return "legacy"
             if key.name == "KEY_ENTER" and positon == 1:
+                select.play()
+                return "visual"
+
+
+def mode_selector():
+    pygame.mixer.init()
+    print(term.home + term.clear)
+    select = pygame.mixer.Sound(
+        f"sfx/freesound_community-ui_correct_button2-103167.mp3"
+    )
+    highlight = pygame.mixer.Sound(f"sfx/creatorshome-on-001-337979.mp3")
+    DISPLAY_TEXT_Story = "[ Story Mode ]"
+    DISPLAY_TEXT_PvP = "[ PvP ]"
+    DISPLAY_TEXT_Free_Play = "[ Free Play ]"
+    line_num = 0
+    positon = 0
+    with term.fullscreen(), term.cbreak(), term.hidden_cursor():
+        with open("ASCII/SELECT_MODE.TXT", encoding="utf-8") as f:
+            for i in f:
+                with term.location(int(term.width / 2 - int(len(i) / 2)), line_num):
+                    print(i)
+                    line_num += 1
+        while True:
+
+            key = term.inkey(timeout=0.1)
+            if key.name == "KEY_UP":
+                positon -= 1
+                if positon < 0:
+                    positon = 2
+                highlight.play()
+
+            if key.name == "KEY_DOWN":
+                positon += 1
+                if positon > 2:
+                    positon = 0
+                highlight.play()
+
+            with term.location(0, line_num + 2):
+                if positon == 0:
+                    print(
+                        term.center(
+                            f"{term.bold}> {DISPLAY_TEXT_Story} <{term.normal}"
+                        ),
+                        end="",
+                    )
+
+                else:
+                    print(term.center(DISPLAY_TEXT_Story), end="")
+
+            with term.location(0, line_num + 4):
+                if positon == 1:
+                    print(
+                        term.center(f"{term.bold}> {DISPLAY_TEXT_PvP} <{term.normal}"),
+                        end="",
+                    )
+
+                else:
+                    print(term.center(DISPLAY_TEXT_PvP), end="")
+
+            with term.location(0, line_num + 6):
+                if positon == 2:
+                    print(
+                        term.center(
+                            f"{term.bold}> {DISPLAY_TEXT_Free_Play} <{term.normal}"
+                        ),
+                        end="",
+                    )
+
+                else:
+                    print(term.center(DISPLAY_TEXT_Free_Play), end="")
+
+            if key.name == "KEY_ENTER" and positon == 0:
                 while pygame.mixer.get_busy():
                     pass
                 select.play()
                 pygame.mixer.music.fadeout(300)
-                return "visual"
+                return "story"
+            if key.name == "KEY_ENTER" and positon == 1:
+                while pygame.mixer.get_busy():
+                    pass
+                select.play()
+                pygame.mixer.music.fadeout(300)
+                return "PvP"
+            if key.name == "KEY_ENTER" and positon == 2:
+                while pygame.mixer.get_busy():
+                    pass
+                select.play()
+                pygame.mixer.music.fadeout(300)
+                return "Free_Play"
 
 
 def game(x_won, o_won):
@@ -224,7 +309,7 @@ def game(x_won, o_won):
 
         with term.location(22, 5):
             print("Esc/Q: Quit")
-            
+
         with term.location(22, 7):
             print("N: Next Song")
 
@@ -232,7 +317,7 @@ def game(x_won, o_won):
                 Place = pygame.mixer.Sound(
                     f"sfx/place_sounds/{random.choice(os.listdir('sfx/place_sounds'))}"
                 )
-                
+
                 with term.location(y, x):
                     if following == 0:
                         print(term.red_bold + "ˇ" + term.normal)
@@ -248,10 +333,10 @@ def game(x_won, o_won):
                         newgame[0] = False
                         return
                     if key == "n":
-                            pygame.mixer.music.stop()
+                        pygame.mixer.music.stop()
 
                     if game_won == False:
-                        
+
                         if key == "w" or key.name == "KEY_UP":
                             x = x - 3
 
@@ -373,7 +458,8 @@ def game(x_won, o_won):
                                 with open("ASCII/REMATCH.txt", encoding="utf-8") as f:
                                     for i in f:
                                         with term.location(
-                                            int(term.width * 0.75 - len(i) / 2), line_num2
+                                            int(term.width * 0.75 - len(i) / 2),
+                                            line_num2,
                                         ):
                                             print(i, end="")
                                             line_num2 = line_num2 + 1
@@ -590,9 +676,13 @@ def game(x_won, o_won):
 
 home_screen()
 version = version_selector()
-
 if version == "visual":
+    mode = mode_selector()
 
+if mode == "Story Mode":
+    pass
+
+if mode == "PvP":
     t1 = threading.Thread(
         target=music,
         daemon=True,
@@ -604,5 +694,9 @@ if version == "visual":
     t1.start()
     while newgame[0] and x_won[0] < 100 and o_won[0] < 100:
         game(x_won, o_won)
+
+if mode == "Free_Play":
+    print("lol")
+
 elif version == "legacy":
     legacy()
