@@ -679,7 +679,7 @@ version = version_selector()
 if version == "visual":
     mode = mode_selector()
 
-if mode == "Story Mode":
+if mode == "story":
     pass
 
 if mode == "PvP":
