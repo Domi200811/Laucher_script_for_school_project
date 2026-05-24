@@ -53,8 +53,10 @@ def actIprologe():
         transition()
             
 def actI():
-    tes="x"
     term = Terminal()
+    tes = "X"
+    x=int(term.width/2)
+    y=3
     line_num = 0
     WINNING_COMBOS = [
         [[3, 2], [9, 2], [15, 2]],
@@ -68,22 +70,28 @@ def actI():
     ]
     board = f"""\
      a     b     c
-  ┌─────┬─────┬─────┐
-1 │  {tes}  │  {tes}  │  {tes}  │
-  ├─────┼─────┼─────┤
-2 │     │     │     │
-  ├─────┼─────┼─────┤
-3 │     │     │     │
-  └─────┴─────┴─────┘
+  ╔═════╦═════╦═════╗
+1 ║  {tes}  ║  {tes}  ║  {tes}  ║
+  ╠═════╬═════╬═════╣
+2 ║     ║     ║     ║
+  ╠═════╬═════╬═════╣
+3 ║     ║     ║     ║
+  ╚═════╩═════╩═════╝
     """
     board = io.StringIO(board)
     
     with term.fullscreen(), term.cbreak(), term.hidden_cursor():
+        term = Terminal()
         for i in board:
             with term.location(int((term.width/2)-len(i)/2), line_num+2):
                 print(i, end="")
                 line_num= line_num+1
         
+        while True:
+            with term.location(x-2, y):
+                print(term.blue+"═════"+term.normal)
+                
+            term.inkey()
 
 
 actI()
