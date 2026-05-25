@@ -7,6 +7,7 @@ import time
 import climage
 import sys
 from legacy.main import legacy
+from story import story_mode
 
 term = Terminal()
 music_stop = [False]
@@ -75,7 +76,7 @@ def home_screen():
                         end="",
                     )
 
-            with term.location(0, line_num + 4):
+            with term.location(0, line_num + 4):                                    #Somehow works, it shouln't but it does
                 if positon == 0:
                     print(term.center(DISPLAY_TEXT_LEAVE), end="")
                 if positon == 1:
@@ -680,7 +681,7 @@ if version == "visual":
     mode = mode_selector()
 
 if mode == "story":
-    pass
+    story_mode()
 
 if mode == "PvP":
     t1 = threading.Thread(
