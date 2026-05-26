@@ -345,11 +345,12 @@ def actIIprologe():
             typewriter("[G4T-355]: Many have tried. Many have failed.\n")
             pygame.mixer.music.fadeout(2)
             time.sleep(1.5)
+            pygame.mixer.music.load("story_music\Future Club.mp3")
+            pygame.mixer.music.play(loops=-1, start=4.0)
             transition()
 
 def actII():
-    pygame.mixer.music.load("story_music\Future Club.mp3")
-    pygame.mixer.music.play(loops=-1, start=4.0)
+    
     x = int(term.width / 2)
     y = 3
     line_num = 0
@@ -618,4 +619,6 @@ def story_mode():
     with term.fullscreen(), term.cbreak(), term.hidden_cursor():
         with term.location(0, 7):
             print(term.center("to be continued..."))
+actIIprologe()
+actII()
     
