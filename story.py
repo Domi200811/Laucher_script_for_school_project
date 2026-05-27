@@ -615,10 +615,10 @@ def story_mode():
                         if term.inkey(timeout=1):
                             break
         if actIstate=="o_won":
-            break
-    with term.fullscreen(), term.cbreak(), term.hidden_cursor():
-        with term.location(0, 7):
-            print(term.center("to be continued..."))
-actIIprologe()
-actII()
+            with term.fullscreen(), term.cbreak(), term.hidden_cursor():
+                with term.location(0, 7):
+                    print(term.center("to be continued..."))
+                sys.exit()
+        
+
     
