@@ -1,7 +1,8 @@
+import sys
     #startup, bases
 def legacy():
-
     run = True
+    game = True
 
     def rajzX(tabla, ui1, ui2):
         tabla[ui1][ui2] = 'X'
@@ -57,24 +58,32 @@ def legacy():
 
     def check_draw(board):
             szamlalo = 0
-            for i in board[:1]:
-                for a in i[:1]:
+            for i in board[1:4]:
+                for a in i[1:4]:
                     if a != None:
                         szamlalo += 1
             if szamlalo == 9:
                 return True
             else: return False
 
+    def gameend(board, replay):
+        if check_winnerX(board) == True:
+            print('A játékot P1 nyerte meg.')
+            
+        elif check_winnerO(board) == True:
+            print('A játékot P2 nyerte meg.')
+        
+        elif check_draw(board) == True:
+            print('Döntetlen! Egyik játékos sem nyert!')
+        else: return None
 
-    """     def check_draw(board):
-        global dontetlen_x_szamlalo
-        dontetlen_x_szamlalo = 0
-        for i in board:
-            for a in i:
-                if a == "X":
-                    dontetlen_x_szamlalo +=1
-        if dontetlen_x_szamlalo == 5 and not check_winnerX :
-            return True """
+        replay = input('Szeretnél tovább játszani?').capitalize()
+        if replay == 'I':
+            return False
+        if replay == 'N':
+            return True
+
+
         
     # game
     print('Üdvölünk a DBM csapat amőba játékában!')
@@ -111,7 +120,7 @@ def legacy():
         x2 = None
         o2 = None
 
-        while True:
+        while game:
 
 
             print('Az 1. játékos következik')
@@ -133,45 +142,14 @@ def legacy():
             game_display(tabla)
             print(' ')
 
-            outcome1 = check_winnerO(tabla)
-            outcome2 = check_winnerX(tabla)
-            outcome3 = check_draw(tabla)
-
-            if outcome1 == True:
-                print('A játékot megnyerte: P2')
-                regame = input('Szeretnél tovább játszani? I/N\n').capitalize()
-                if regame == 'I':
-                    print('Új játék!')
-                    tabla.clear()
-                    continue
-                if regame == 'N':
-                    print('Köszönjük a játékot!')
-                    run = False
-                    break
-
-            elif outcome2 == True:
-                print('A játékot megnyerte: P1')
-                regame = input('Szeretnél tovább játszani? I/N\n').capitalize()
-                if regame == 'I':
-                    print('Új játék!')
-                    tabla.clear()
-                    continue
-                if regame == 'N':
-                    print('Köszönjük a játékot!')
-                    run = False
-                    break   
-
-            elif outcome3 == True:
-                print('Döntetlen! Egyik játékos sem nyert!')
-                regame = input('Szeretnél tovább játszani? I/N\n').capitalize()
-                if regame == 'I':
-                    print('Új játék!')
-                    tabla.clear()
-                    continue
-                if regame == 'N':
-                    print('Köszönjük a játékot!')
-                    run = False
-                    break
+            regame = None
+            useri = gameend(tabla, regame)
+            if useri == False:
+                tabla.clear()
+                game = False
+                continue
+            elif useri == True:
+                sys.exit()
 
 
             print('Az 2. játékos következik')
@@ -195,47 +173,13 @@ def legacy():
             game_display(tabla)
             print(' ')
 
+            regame = None
+            useri = gameend(tabla, regame)
+            if useri == False:
+                tabla.clear()
+                game = False
+                continue
+            elif useri == True:
+                sys.exit()
 
-
-            #winner/loser tab
-            outcome4 = check_winnerO(tabla)
-            outcome5 = check_winnerX(tabla)
-            outcome6 = check_draw(tabla)
-
-
-
-            if outcome4 == True:
-                print('A játékot megnyerte: P2')
-                regame = input('Szeretnél tovább játszani? I/N\n').capitalize()
-                if regame == 'I':
-                    print('Új játék!')
-                    tabla.clear()
-                    continue
-                if regame == 'N':
-                    print('Köszönjük a játékot!')
-                    run = False
-                    break
-
-            elif outcome5 == True:
-                print('A játékot megnyerte: P1')
-                regame = input('Szeretnél tovább játszani? I/N\n').capitalize()
-                if regame == 'I':
-                    print('Új játék!')
-                    tabla.clear()
-                    continue
-                if regame == 'N':
-                    print('Köszönjük a játékot!')
-                    run = False
-                    break   
-
-            elif outcome6 == True:
-                print('Döntetlen! Egyik játékos sem nyert!')
-                regame = input('Szeretnél tovább játszani? I/N\n').capitalize()
-                if regame == 'I':
-                    print('Új játék!')
-                    tabla.clear()
-                    continue
-                if regame == 'N':
-                    print('Köszönjük a játékot!')
-                    run = False
-                    break
+legacy()
