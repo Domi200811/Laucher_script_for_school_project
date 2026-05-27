@@ -473,84 +473,84 @@ def actII():
                         return "o_won"
 
 def story_mode():
-    # intro()
-    # actIprologe()
+    intro()
+    actIprologe()
 
-    # while True:
-    #     actIstate=actI()
-    #     if actIstate=="o_won":
-    #         with term.fullscreen(), term.cbreak(), term.hidden_cursor():
-    #             with open("ASCII/GAME_OVER.TXT", encoding="utf-8") as f:
-    #                 line_num=0
-    #                 for i in f:
-    #                     with term.location(int((term.width/2)-len(i)/2), line_num+2):
-    #                         print(i, end="")
-    #                         line_num+=1
+    while True:
+        actIstate=actI()
+        if actIstate=="o_won":
+            with term.fullscreen(), term.cbreak(), term.hidden_cursor():
+                with open("ASCII/GAME_OVER.TXT", encoding="utf-8") as f:
+                    line_num=0
+                    for i in f:
+                        with term.location(int((term.width/2)-len(i)/2), line_num+2):
+                            print(i, end="")
+                            line_num+=1
                         
-    #             with term.location(0, 10):
-    #                 typewriter("[ALC-001]: *hic* Told ya... you're no match for me, kiddo.")
-    #             while True:
-    #                 with term.location(0,11):
-    #                     print(
-    #                         f"{term.yellow}{term.center('press [ANY BUTTON] to retry')}{term.normal}",
-    #                         end="",
-    #                     )
-    #                     if term.inkey(timeout=0.5):
-    #                         break
-    #                 with term.location(0,11):
-    #                     print(
-    #                         f"{term.black}{term.center(' ')}{term.normal}",
-    #                         end="",
-    #                     )
-    #                     if term.inkey(timeout=1):
-    #                         break
+                with term.location(0, 10):
+                    typewriter("[ALC-001]: *hic* Told ya... you're no match for me, kiddo.")
+                while True:
+                    with term.location(0,11):
+                        print(
+                            f"{term.yellow}{term.center('press [ANY BUTTON] to retry')}{term.normal}",
+                            end="",
+                        )
+                        if term.inkey(timeout=0.5):
+                            break
+                    with term.location(0,11):
+                        print(
+                            f"{term.black}{term.center(' ')}{term.normal}",
+                            end="",
+                        )
+                        if term.inkey(timeout=1):
+                            break
 
-    #     if actIstate=="tie":
-    #         with term.fullscreen(), term.cbreak(), term.hidden_cursor():
-    #             with open("ASCII/GAME_OVER.TXT", encoding="utf-8") as f:
-    #                 line_num=0
-    #                 for i in f:
-    #                     with term.location(int((term.width/2)-len(i)/2), line_num+2):
-    #                         print(i, end="")
-    #                         line_num+=1
+        if actIstate=="tie":
+            with term.fullscreen(), term.cbreak(), term.hidden_cursor():
+                with open("ASCII/GAME_OVER.TXT", encoding="utf-8") as f:
+                    line_num=0
+                    for i in f:
+                        with term.location(int((term.width/2)-len(i)/2), line_num+2):
+                            print(i, end="")
+                            line_num+=1
                         
-    #             with term.location(0, 10):
-    #                 typewriter("[ALC-001]: Nice try kid. But it's a tie, which means nobody won and that includes you. So what's mine stays mine.")
-    #             while True:
-    #                 with term.location(0,11):
-    #                     print(
-    #                         f"{term.yellow}{term.center('press [ANY BUTTON] to retry')}{term.normal}",
-    #                         end="",
-    #                     )
-    #                     if term.inkey(timeout=0.5):
-    #                         break
-    #                 with term.location(0,11):
-    #                     print(
-    #                         f"{term.black}{term.center(' ')}{term.normal}",
-    #                         end="",
-    #                     )
-    #                     if term.inkey(timeout=1):
-    #                         break
+                with term.location(0, 10):
+                    typewriter("[ALC-001]: Nice try kid. But it's a tie, which means nobody won and that includes you. So what's mine stays mine.")
+                while True:
+                    with term.location(0,11):
+                        print(
+                            f"{term.yellow}{term.center('press [ANY BUTTON] to retry')}{term.normal}",
+                            end="",
+                        )
+                        if term.inkey(timeout=0.5):
+                            break
+                    with term.location(0,11):
+                        print(
+                            f"{term.black}{term.center(' ')}{term.normal}",
+                            end="",
+                        )
+                        if term.inkey(timeout=1):
+                            break
         
-    #     if actIstate=="x_won":
-    #         with term.fullscreen(), term.cbreak(), term.hidden_cursor():
-    #             pygame.mixer.music.load(f"story_music/Dark Night.mp3")
-    #             pygame.mixer.music.play(loops=-1, start=31.0)
-    #             with term.location(0, 2):
-    #                 typewriter("[ALC-001]: Wait... three in a row? How'd you do that? You cheated... *hic*...\n")
-    #                 typewriter("[ALC-001]: Fine. Just take it. Take it and get out of my face.\n")
+        if actIstate=="x_won":
+            with term.fullscreen(), term.cbreak(), term.hidden_cursor():
+                pygame.mixer.music.load(f"story_music/Dark Night.mp3")
+                pygame.mixer.music.play(loops=-1, start=31.0)
+                with term.location(0, 2):
+                    typewriter("[ALC-001]: Wait... three in a row? How'd you do that? You cheated... *hic*...\n")
+                    typewriter("[ALC-001]: Fine. Just take it. Take it and get out of my face.\n")
                 
-    #             while True:
-    #                 with term.location(0, 6):
-    #                     print(f"{term.yellow}press [ENTER] to leave{term.normal}", end="")
-    #                     if term.inkey(timeout=0.5).name == "KEY_ENTER":
-    #                         break
-    #                 with term.location(0, 6):
-    #                     print(f"{" " * 30}", end="")
-    #                     if term.inkey(timeout=0.5).name == "KEY_ENTER":
-    #                         break
-    #         pygame.mixer.music.fadeout(500)
-    #         break
+                while True:
+                    with term.location(0, 6):
+                        print(f"{term.yellow}press [ENTER] to leave{term.normal}", end="")
+                        if term.inkey(timeout=0.5).name == "KEY_ENTER":
+                            break
+                    with term.location(0, 6):
+                        print(f"{" " * 30}", end="")
+                        if term.inkey(timeout=0.5).name == "KEY_ENTER":
+                            break
+            pygame.mixer.music.fadeout(500)
+            break
         
     actIIprologe()
     while True:
@@ -615,4 +615,3 @@ def story_mode():
                     time.sleep(1)
                 sys.exit()
         
-story_mode()
