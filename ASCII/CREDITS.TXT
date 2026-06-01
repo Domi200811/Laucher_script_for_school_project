@@ -1,0 +1,56 @@
+===============================================================================
+C R E D I T S
+===============================================================================
+
+-------------------------------------------------------------------------------
+[ TEAM MEMBERS ]
+
+PÉK DOMINIK
+
+JUHÁSZ BÁLINT
+
+RÓNAI MÁRTON JÁNOS
+-------------------------------------------------------------------------------
+[ CORE DEVELOPMENT ]
+
+Launcher: Pék Dominik
+
+UI/UX Design: Pék Dominik
+
+Logic Design: Pék Dominik
+
+Audio Editing: Pék Dominik
+
+AI Logic: Pék Dominik
+
+Story: Pék Dominik
+
+Audio System: Pék Dominik
+
+Save System: Pék Dominik
+-------------------------------------------------------------------------------
+[ LEGACY DEVELOPMENT ]
+
+Lead Developer: Juhász Bálint
+
+Bug Fixer: Rónai Márton János
+-------------------------------------------------------------------------------
+[ DOCUMENTATION ]
+
+Power Point: Rónai Márton János
+-------------------------------------------------------------------------------
+[ SPECIAL THANKS ]
+
+Blessed: For giving the look of the project
+
+Pygame: For making the audio possible
+
+Rónai Márton János & Juhász Bálint: For emotional support
+
+Pixabay: For the sound effects
+
+You: For playing our game
+===============================================================================
+A PRODUCTION OF THE DBM DEVELOPMENT TEAM
+Copyright (c) 2026 DBM. All Rights Reserved.
+===============================================================================

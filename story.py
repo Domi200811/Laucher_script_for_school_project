@@ -6,6 +6,7 @@ import random
 import pygame
 import io
 import sys
+from pathlib import Path
 
 pygame.mixer.init()
 
@@ -42,7 +43,6 @@ def transition(sleep=0.1):
                 time.sleep(sleep)
 
 def intro():
-    term = Terminal()
     line_num=0
     with term.fullscreen(), term.cbreak(), term.hidden_cursor():
         time.sleep(1.5)
@@ -128,7 +128,7 @@ def actIprologe():
             typewriter(
                 "[ALC-001]: Do you think you can just... *hic* ...walk in here and expect me to give it to you?!\n"
             )
-            typewriter("[ALC-001]: I like it when it is a little more challanging\n")
+            typewriter("[ALC-001]: I like it when it is a little more challenging\n")
             while True:
                 print(
                     f"\r{term.yellow}press [ENTER] to challange him{term.normal}",
@@ -178,9 +178,9 @@ def actI():
     "*aggressively slams his empty glass onto the wooden table*",
 ]
     with term.fullscreen(), term.cbreak(), term.hidden_cursor():
-        with term.location(0, 2):
+        with term.location(0, 0):
             print("="*term.width,end="")
-        with term.location(0, 4):
+        with term.location(0, 2):
             print("="*term.width, end="")
         with term.location(0,13):
             print("="*term.width)
@@ -236,18 +236,12 @@ def actI():
                 row = 1
             if y == 7:
                 row = 2
-            with term.location(0, 0):
-                print(col, row)
-            with term.location(0, 1):
-                print(x, y)
 
                 if key.name == "KEY_ENTER" or key == " ":
                     if following and pos[row][col] == " ":
                         pos[row][col] = "X"
                         following = not following
                         if win_check(pos, "X"):
-                            with term.location(0,3):
-                                print("X_won")
                             won=True
                             x_won=True
                     while not following:
@@ -272,8 +266,6 @@ def actI():
                             pos[rnd_x][rnd_y]="O"
                             following = not following
                             if win_check(pos, "O"):
-                                with term.location(0,3):
-                                    print("O_won")
                                 won= True
                                 o_won=True
                             board(pos)
@@ -284,7 +276,6 @@ def actI():
                     
                     if temp == 9 and not won:
                         with term.location(0, 3):
-                            print("draw")
                             won=True
                             return "tie"
                     if won==True:
@@ -345,7 +336,7 @@ def actIIprologe():
             typewriter("[G4T-355]: Many have tried. Many have failed.\n")
             pygame.mixer.music.fadeout(2)
             time.sleep(1.5)
-            pygame.mixer.music.load("story_music\Future Club.mp3")
+            pygame.mixer.music.load("story_music/Future Club.mp3")
             pygame.mixer.music.play(loops=-1, start=4.0)
             transition()
 
@@ -362,9 +353,9 @@ def actII():
     tie = False
 
     with term.fullscreen(), term.cbreak(), term.hidden_cursor():
-        with term.location(0, 2):
+        with term.location(0, 0):
             print("="*term.width,end="")
-        with term.location(0, 4):
+        with term.location(0, 2):
             print("="*term.width, end="")
         with term.location(0,13):
             print("="*term.width)
@@ -420,18 +411,12 @@ def actII():
                 row = 1
             if y == 7:
                 row = 2
-            with term.location(0, 0):
-                print(col, row)
-            with term.location(0, 1):
-                print(x, y)
             
             if key.name == "KEY_ENTER" or key == " ":
                 if pos[row][col] == " ":
                     pos[row][col] = "X"
                     
                     if win_check(pos, "X"):
-                        with term.location(0,3):
-                            print("X_won")
                         won=True
                         x_won=True
                     board(pos)
@@ -472,86 +457,110 @@ def actII():
                     if o_won:
                         return "o_won"
 
-def story_mode():
+def credits():
+    pygame.mixer.music.load("story_music/Blue Monday  [sad lofi].mp3")
+    pygame.mixer.music.play()
+    with term.fullscreen(), term.cbreak(), term.hidden_cursor():
+        with open("ASCII/CREDITS.TXT", encoding="UTF-8") as f:
+            with term.location(0,term.height):
+                for i in f:
+                    print(term.center(i))
+                    time.sleep(0.75)
+                for i in range(term.height):
+                    print(" ")
+                    time.sleep(0.75)
+            with term.location(0,int(term.height/2)):
+                print(term.center("[Press any key to exit]"))
+                term.inkey()
+
+def story_mode(save_point=0):
+    save=Path("save/save.txt")
     intro()
-    actIprologe()
+    if save_point==0:
+        actIprologe()
 
-    while True:
-        actIstate=actI()
-        if actIstate=="o_won":
-            with term.fullscreen(), term.cbreak(), term.hidden_cursor():
-                with open("ASCII/GAME_OVER.TXT", encoding="utf-8") as f:
-                    line_num=0
-                    for i in f:
-                        with term.location(int((term.width/2)-len(i)/2), line_num+2):
-                            print(i, end="")
-                            line_num+=1
-                        
-                with term.location(0, 10):
-                    typewriter("[ALC-001]: *hic* Told ya... you're no match for me, kiddo.")
-                while True:
-                    with term.location(0,11):
-                        print(
-                            f"{term.yellow}{term.center('press [ANY BUTTON] to retry')}{term.normal}",
-                            end="",
-                        )
-                        if term.inkey(timeout=0.5):
-                            break
-                    with term.location(0,11):
-                        print(
-                            f"{term.black}{term.center(' ')}{term.normal}",
-                            end="",
-                        )
-                        if term.inkey(timeout=1):
-                            break
+        while True:
+            actIstate=actI()
+            if actIstate=="o_won":
+                with term.fullscreen(), term.cbreak(), term.hidden_cursor():
+                    with open("ASCII/GAME_OVER.TXT", encoding="utf-8") as f:
+                        line_num=0
+                        for i in f:
+                            with term.location(int((term.width/2)-len(i)/2), line_num+2):
+                                print(i, end="")
+                                line_num+=1
+                            
+                    with term.location(0, 10):
+                        typewriter("[ALC-001]: *hic* Told ya... you're no match for me, kiddo.")
+                    while True:
+                        with term.location(0,11):
+                            print(
+                                f"{term.yellow}{term.center('press [ANY BUTTON] to retry')}{term.normal}",
+                                end="",
+                            )
+                            if term.inkey(timeout=0.5):
+                                break
+                        with term.location(0,11):
+                            print(
+                                f"{term.black}{term.center(' ')}{term.normal}",
+                                end="",
+                            )
+                            if term.inkey(timeout=1):
+                                break
 
-        if actIstate=="tie":
-            with term.fullscreen(), term.cbreak(), term.hidden_cursor():
-                with open("ASCII/GAME_OVER.TXT", encoding="utf-8") as f:
-                    line_num=0
-                    for i in f:
-                        with term.location(int((term.width/2)-len(i)/2), line_num+2):
-                            print(i, end="")
-                            line_num+=1
-                        
-                with term.location(0, 10):
-                    typewriter("[ALC-001]: Nice try kid. But it's a tie, which means nobody won and that includes you. So what's mine stays mine.")
-                while True:
-                    with term.location(0,11):
-                        print(
-                            f"{term.yellow}{term.center('press [ANY BUTTON] to retry')}{term.normal}",
-                            end="",
-                        )
-                        if term.inkey(timeout=0.5):
-                            break
-                    with term.location(0,11):
-                        print(
-                            f"{term.black}{term.center(' ')}{term.normal}",
-                            end="",
-                        )
-                        if term.inkey(timeout=1):
-                            break
-        
-        if actIstate=="x_won":
-            with term.fullscreen(), term.cbreak(), term.hidden_cursor():
-                pygame.mixer.music.load(f"story_music/Dark Night.mp3")
-                pygame.mixer.music.play(loops=-1, start=31.0)
-                with term.location(0, 2):
-                    typewriter("[ALC-001]: Wait... three in a row? How'd you do that? You cheated... *hic*...\n")
-                    typewriter("[ALC-001]: Fine. Just take it. Take it and get out of my face.\n")
-                
-                while True:
-                    with term.location(0, 6):
-                        print(f"{term.yellow}press [ENTER] to leave{term.normal}", end="")
-                        if term.inkey(timeout=0.5).name == "KEY_ENTER":
-                            break
-                    with term.location(0, 6):
-                        print(f"{" " * 30}", end="")
-                        if term.inkey(timeout=0.5).name == "KEY_ENTER":
-                            break
-            pygame.mixer.music.fadeout(500)
-            break
-        
+            if actIstate=="tie":
+                with term.fullscreen(), term.cbreak(), term.hidden_cursor():
+                    with open("ASCII/GAME_OVER.TXT", encoding="utf-8") as f:
+                        line_num=0
+                        for i in f:
+                            with term.location(int((term.width/2)-len(i)/2), line_num+2):
+                                print(i, end="")
+                                line_num+=1
+                            
+                    with term.location(0, 10):
+                        typewriter("[ALC-001]: Nice try kid. But it's a tie, which means nobody won and that includes you. So what's mine stays mine.")
+                    while True:
+                        with term.location(0,11):
+                            print(
+                                f"{term.yellow}{term.center('press [ANY BUTTON] to retry')}{term.normal}",
+                                end="",
+                            )
+                            if term.inkey(timeout=0.5):
+                                break
+                        with term.location(0,11):
+                            print(
+                                f"{term.black}{term.center(' ')}{term.normal}",
+                                end="",
+                            )
+                            if term.inkey(timeout=1):
+                                break
+            
+            if actIstate=="x_won":
+                with term.fullscreen(), term.cbreak(), term.hidden_cursor():
+                    pygame.mixer.music.load(f"story_music/Dark Night.mp3")
+                    pygame.mixer.music.play(loops=-1, start=31.0)
+                    with term.location(0, 2):
+                        typewriter("[ALC-001]: Wait... three in a row? How'd you do that? You cheated... *hic*...\n")
+                        typewriter("[ALC-001]: Fine. Just take it. Take it and get out of my face.\n")
+                    
+                    while True:
+                        with term.location(0, 6):
+                            print(f"{term.yellow}press [ENTER] to leave{term.normal}", end="")
+                            if term.inkey(timeout=0.5).name == "KEY_ENTER":
+                                break
+                        with term.location(0, 6):
+                            print(f"{" " * 30}", end="")
+                            if term.inkey(timeout=0.5).name == "KEY_ENTER":
+                                break
+                    save.parent.mkdir(exist_ok=True, parents=True)
+                    save.write_text("1")
+                    print(
+                    f"\r{term.color(94)}{term.ljust('*checkpoint*')}{term.normal}"
+                    )
+                    time.sleep(1.5)
+                pygame.mixer.music.fadeout(500)
+                break
+            
     actIIprologe()
     while True:
         actIstate=actII()
@@ -565,7 +574,7 @@ def story_mode():
                             line_num+=1
                         
                 with term.location(0, 10):
-                    typewriter("[G4T-355]: Gridlocked. Matching my defensive algorithms is mathematically notable, but equality does not grant access.")
+                    typewriter("[G4T-355]: Matching my defensive algorithms is mathematically notable, but equality does not grant access.")
                 while True:
                     with term.location(0,11):
                         print(
@@ -612,6 +621,7 @@ def story_mode():
             with term.fullscreen(), term.cbreak(), term.hidden_cursor():
                 with term.location(0, 7):
                     print(term.center("to be continued..."))
-                    time.sleep(1)
+                    time.sleep(3)
+                credits()
                 sys.exit()
         

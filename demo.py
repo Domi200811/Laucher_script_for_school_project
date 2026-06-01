@@ -9,6 +9,8 @@ import climage
 import sys
 from legacy.main import legacy
 from story import story_mode
+from pathlib import Path
+
 
 term = Terminal()
 music_stop = [False]
@@ -168,11 +170,11 @@ def mode_selector():
     pygame.mixer.init()
     print(term.home + term.clear)
     select = pygame.mixer.Sound(
-        f"sfx/freesound_community-ui_correct_button2-103167.mp3"
-    )
+        f"sfx/freesound_community-ui_correct_button2-103167.mp3")
+    select_alt=pygame.mixer.Sound(f"sfx/voicebosch-menu-select-button-182476.mp3")
     highlight = pygame.mixer.Sound(f"sfx/creatorshome-on-001-337979.mp3")
-    DISPLAY_TEXT_Story = "[ Story Mode ]"
-    DISPLAY_TEXT_PvP = "[ PvP ]"
+    NEW_GAME = "[ Story Mode ]"
+    CONTINUE = "[ PvP ]"
     DISPLAY_TEXT_Free_Play = "[ Free Play ]"
     line_num = 0
     positon = 0
@@ -201,23 +203,23 @@ def mode_selector():
                 if positon == 0:
                     print(
                         term.center(
-                            f"{term.bold}> {DISPLAY_TEXT_Story} <{term.normal}"
+                            f"{term.bold}> {NEW_GAME} <{term.normal}"
                         ),
                         end="",
                     )
 
                 else:
-                    print(term.center(DISPLAY_TEXT_Story), end="")
+                    print(term.center(NEW_GAME), end="")
 
             with term.location(0, line_num + 4):
                 if positon == 1:
                     print(
-                        term.center(f"{term.bold}> {DISPLAY_TEXT_PvP} <{term.normal}"),
+                        term.center(f"{term.bold}> {CONTINUE} <{term.normal}"),
                         end="",
                     )
 
                 else:
-                    print(term.center(DISPLAY_TEXT_PvP), end="")
+                    print(term.center(CONTINUE), end="")
 
             with term.location(0, line_num + 6):
                 if positon == 2:
@@ -234,7 +236,10 @@ def mode_selector():
             if key.name == "KEY_ENTER" and positon == 0:
                 while pygame.mixer.get_busy():
                     pass
-                select.play()
+                if Path("save/save.txt").exists():
+                    select_alt.play()
+                else:
+                    select.play()
                 pygame.mixer.music.fadeout(300)
                 return "story"
             if key.name == "KEY_ENTER" and positon == 1:
@@ -250,6 +255,73 @@ def mode_selector():
                 pygame.mixer.music.fadeout(300)
                 return "Free_Play"
 
+def save_selector():
+    pygame.mixer.init()
+    print(term.home + term.clear)
+    select = pygame.mixer.Sound(
+        f"sfx/freesound_community-ui_correct_button2-103167.mp3"
+    )
+    highlight = pygame.mixer.Sound(f"sfx/creatorshome-on-001-337979.mp3")
+    NEW_GAME = "[ New Game]"
+    CONTINUE = "[ Continue ]"
+    line_num = 0
+    positon = 0
+    with term.fullscreen(), term.cbreak(), term.hidden_cursor():
+        with open("ASCII/SELECT_MODE.TXT", encoding="utf-8") as f:
+            for i in f:
+                with term.location(int(term.width / 2 - int(len(i) / 2)), line_num):
+                    print(i)
+                    line_num += 1
+        while True:
+
+            key = term.inkey(timeout=0.1)
+            if key.name == "KEY_UP":
+                positon -= 1
+                if positon < 0:
+                    positon = 2
+                highlight.play()
+
+            if key.name == "KEY_DOWN":
+                positon += 1
+                if positon > 2:
+                    positon = 0
+                highlight.play()
+
+            with term.location(0, line_num + 2):
+                if positon == 0:
+                    print(
+                        term.center(
+                            f"{term.bold}> {NEW_GAME} <{term.normal}"
+                        ),
+                        end="",
+                    )
+
+                else:
+                    print(term.center(NEW_GAME), end="")
+
+            with term.location(0, line_num + 4):
+                if positon == 1:
+                    print(
+                        term.center(f"{term.bold}> {CONTINUE} <{term.normal}"),
+                        end="",
+                    )
+
+                else:
+                    print(term.center(CONTINUE), end="")
+
+
+            if key.name == "KEY_ENTER" and positon == 0:
+                while pygame.mixer.get_busy():
+                    pass
+                select.play()
+                pygame.mixer.music.fadeout(300)
+                return "new"
+            if key.name == "KEY_ENTER" and positon == 1:
+                while pygame.mixer.get_busy():
+                    pass
+                select.play()
+                pygame.mixer.music.fadeout(300)
+                return "continue"
 
 def game(x_won, o_won):
     print(term.clear + term.hide_cursor)
@@ -682,8 +754,16 @@ if version == "visual":
     mode = mode_selector()
 
 if mode == "story":
-    story_mode()
-
+    if Path("save/save.txt").exists():
+        save_choice=save_selector()
+        if save_choice=="new":
+            story_mode()
+        if save_choice=="continue":
+            with open("save/save.txt", encoding="utf-8") as f:
+                progress=f.readlines()
+            story_mode(int(progress[0]))
+    else:
+        story_mode()
 if mode == "PvP":
     t1 = threading.Thread(
         target=music,
