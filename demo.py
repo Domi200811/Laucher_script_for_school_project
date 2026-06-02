@@ -190,12 +190,12 @@ def mode_selector():
             if key.name == "KEY_UP":
                 positon -= 1
                 if positon < 0:
-                    positon = 2
+                    positon = 1
                 highlight.play()
 
             if key.name == "KEY_DOWN":
                 positon += 1
-                if positon > 2:
+                if positon > 1:
                     positon = 0
                 highlight.play()
 
@@ -231,7 +231,7 @@ def mode_selector():
                     )
 
                 else:
-                    print(term.center(DISPLAY_TEXT_Free_Play), end="")
+                    print(term.center(" "*45 + DISPLAY_TEXT_Free_Play + "   <-- Will be available in the final version"), end="")
 
             if key.name == "KEY_ENTER" and positon == 0:
                 while pygame.mixer.get_busy():
