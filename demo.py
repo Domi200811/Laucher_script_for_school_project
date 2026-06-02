@@ -262,12 +262,12 @@ def save_selector():
         f"sfx/freesound_community-ui_correct_button2-103167.mp3"
     )
     highlight = pygame.mixer.Sound(f"sfx/creatorshome-on-001-337979.mp3")
-    NEW_GAME = "[ New Game]"
+    NEW_GAME = "[ New Game ]"
     CONTINUE = "[ Continue ]"
     line_num = 0
     positon = 0
     with term.fullscreen(), term.cbreak(), term.hidden_cursor():
-        with open("ASCII/SELECT_MODE.TXT", encoding="utf-8") as f:
+        with open("ASCII/CONTINUE.TXT", encoding="utf-8") as f:
             for i in f:
                 with term.location(int(term.width / 2 - int(len(i) / 2)), line_num):
                     print(i)
@@ -309,6 +309,8 @@ def save_selector():
                 else:
                     print(term.center(CONTINUE), end="")
 
+            with term.location(0, line_num+6):
+                print(term.center("*starting a new game overwrites your previous save"))
 
             if key.name == "KEY_ENTER" and positon == 0:
                 while pygame.mixer.get_busy():

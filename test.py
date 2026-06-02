@@ -1,10 +1,8 @@
-from blessed import Terminal
+import pygame
+import random
+import os
 import time
-term=Terminal()
-with term.fullscreen(), term.cbreak(), term.hidden_cursor():
-    with open("ASCII/CREDITS.TXT", encoding="UTF-8") as f:
-        with term.location(0,term.height):
-            for i in f:
-                print(term.center(i))
-                time.sleep(0.75)
-    time.sleep(3)
+pygame.mixer.init()
+place_sound=pygame.mixer.Sound(f"sfx/boss1_sounds/{random.choice(os.listdir('sfx/boss1_sounds'))}")
+place_sound.play()
+time.sleep(1)

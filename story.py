@@ -7,6 +7,7 @@ import pygame
 import io
 import sys
 from pathlib import Path
+import os
 
 pygame.mixer.init()
 
@@ -245,6 +246,8 @@ def actI():
                             won=True
                             x_won=True
                     while not following:
+                        place_sound=pygame.mixer.Sound(f"sfx/place_sounds/{random.choice(os.listdir('sfx/place_sounds'))}")
+                        place_sound.play()
                         board(pos)
                         temp = 0
                         for i in pos:
@@ -268,6 +271,8 @@ def actI():
                             if win_check(pos, "O"):
                                 won= True
                                 o_won=True
+                            place_sound=pygame.mixer.Sound(f"sfx/boss1_sounds/{random.choice(os.listdir('sfx/boss1_sounds'))}")
+                            place_sound.play()
                             board(pos)
                             time.sleep(0.75)
                         else:
@@ -419,6 +424,8 @@ def actII():
                     if win_check(pos, "X"):
                         won=True
                         x_won=True
+                    place_sound=pygame.mixer.Sound(f"sfx/place_sounds/{random.choice(os.listdir('sfx/place_sounds'))}")
+                    place_sound.play()
                     board(pos)
                     temp = 0
                     
@@ -435,8 +442,6 @@ def actII():
                         ai_y=choice[1]
                         pos[ai_x][ai_y]="O"
                         if win_check(pos, "O"):
-                            with term.location(0,3):
-                                print("O_won")
                             won= True
                             o_won=True
                         board(pos)
