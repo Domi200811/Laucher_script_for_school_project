@@ -231,7 +231,7 @@ def mode_selector():
                     )
 
                 else:
-                    print(term.center(" "*45 + DISPLAY_TEXT_Free_Play + "   <-- Will be available in the final version"), end="")
+                    print(term.center(" "*45 + term.bright_black(DISPLAY_TEXT_Free_Play + "   <-- Will be available in the final version")), end="")
 
             if key.name == "KEY_ENTER" and positon == 0:
                 while pygame.mixer.get_busy():

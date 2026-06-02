@@ -51,6 +51,6 @@ Pixabay: For the sound effects
 
 You: For playing our game
 ===============================================================================
-A PRODUCTION OF THE DBM DEVELOPMENT TEAM
+A PRODUCTION OF THE DBM TEAM
 Copyright (c) 2026 DBM. All Rights Reserved.
 ===============================================================================

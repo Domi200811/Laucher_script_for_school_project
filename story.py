@@ -238,58 +238,58 @@ def actI():
             if y == 7:
                 row = 2
 
-                if key.name == "KEY_ENTER" or key == " ":
-                    if following and pos[row][col] == " ":
-                        pos[row][col] = "X"
+            if key.name == "KEY_ENTER" or key == " ":
+                if following and pos[row][col] == " ":
+                    pos[row][col] = "X"
+                    following = not following
+                    if win_check(pos, "X"):
+                        won=True
+                        x_won=True
+                while not following:
+                    place_sound=pygame.mixer.Sound(f"sfx/place_sounds/{random.choice(os.listdir('sfx/place_sounds'))}")
+                    place_sound.play()
+                    board(pos)
+                    temp = 0
+                    for i in pos:
+                        for a in i:
+                            if a != " ":
+                                temp += 1
+                    if temp != 9 and won == False:
+                        with term.location(0,1):
+                            print(term.center("[ALC-001]: " + random.choice(voice_line)))
+                        time.sleep(1)
+                        choose_from=[]
+                        for i in range(0,3):
+                            for a in range(0,3):
+                                if pos[i][a]==" ":
+                                    choose_from.append([i, a])
+                        choosen_space=random.choice(choose_from)
+                        rnd_x=choosen_space[0]
+                        rnd_y=choosen_space[1]
+                        pos[rnd_x][rnd_y]="O"
                         following = not following
-                        if win_check(pos, "X"):
-                            won=True
-                            x_won=True
-                    while not following:
-                        place_sound=pygame.mixer.Sound(f"sfx/place_sounds/{random.choice(os.listdir('sfx/place_sounds'))}")
+                        if win_check(pos, "O"):
+                            won= True
+                            o_won=True
+                        place_sound=pygame.mixer.Sound(f"sfx/boss1_sounds/{random.choice(os.listdir('sfx/boss1_sounds'))}")
                         place_sound.play()
                         board(pos)
-                        temp = 0
-                        for i in pos:
-                            for a in i:
-                                if a != " ":
-                                    temp += 1
-                        if temp != 9 and won == False:
-                            with term.location(0,1):
-                                print(term.center("[ALC-001]: " + random.choice(voice_line)))
-                            time.sleep(1)
-                            choose_from=[]
-                            for i in range(0,3):
-                                for a in range(0,3):
-                                    if pos[i][a]==" ":
-                                        choose_from.append([i, a])
-                            choosen_space=random.choice(choose_from)
-                            rnd_x=choosen_space[0]
-                            rnd_y=choosen_space[1]
-                            pos[rnd_x][rnd_y]="O"
-                            following = not following
-                            if win_check(pos, "O"):
-                                won= True
-                                o_won=True
-                            place_sound=pygame.mixer.Sound(f"sfx/boss1_sounds/{random.choice(os.listdir('sfx/boss1_sounds'))}")
-                            place_sound.play()
-                            board(pos)
-                            time.sleep(0.75)
-                        else:
-                            break
+                        time.sleep(0.75)
+                    else:
+                        break
 
-                    
-                    if temp == 9 and not won:
-                        with term.location(0, 3):
-                            won=True
-                            return "tie"
-                    if won==True:
-                        if x_won:
-                            pygame.mixer.music.fadeout(500)
-                            transition()
-                            return "x_won"
-                        if o_won:
-                            return "o_won"
+                
+                if temp == 9 and not won:
+                    with term.location(0, 3):
+                        won=True
+                        return "tie"
+                if won==True:
+                    if x_won:
+                        pygame.mixer.music.fadeout(500)
+                        transition()
+                        return "x_won"
+                    if o_won:
+                        return "o_won"
 
 def ActII_AI(pos):
     for i in range(3):
@@ -336,7 +336,7 @@ def actIIprologe():
         with term.location(0,0):
             typewriter("At the enterance......\n")
             print("=" * 40)
-            typewriter("[G4T-355]: I don't reckonise you, Trun back. Now\n")
+            typewriter("[G4T-355]: I don't recognise you, Trun back. Now\n")
             typewriter("[G4T-355]: I know what you want. You can't get past me.\n")
             typewriter("[G4T-355]: Many have tried. Many have failed.\n")
             pygame.mixer.music.fadeout(2)
@@ -450,13 +450,12 @@ def actII():
 
                 
                 if temp == 9 and not won:
-                    with term.location(0, 3):
-                        print("draw")
-                        won=True
-                        return "tie"
+                    won=True
+                    return "tie"
                 if won==True:
                     if x_won:
                         pygame.mixer.music.fadeout(500)
+                        time.sleep(1.5)
                         transition()
                         return "x_won"
                     if o_won:
@@ -559,9 +558,8 @@ def story_mode(save_point=0):
                                 break
                     save.parent.mkdir(exist_ok=True, parents=True)
                     save.write_text("1")
-                    print(
-                    f"\r{term.color(94)}{term.ljust('*checkpoint*')}{term.normal}"
-                    )
+                    with term.location(0, 6):
+                        print(f"{term.color(94)}*checkpoint*{term.normal}{term.clear_eol}", end="")
                     time.sleep(1.5)
                 pygame.mixer.music.fadeout(500)
                 break
@@ -579,7 +577,7 @@ def story_mode(save_point=0):
                             line_num+=1
                         
                 with term.location(0, 10):
-                    typewriter("[G4T-355]: Matching my defensive algorithms is mathematically notable, but equality does not grant access.")
+                    typewriter("[G4T-355]: Matching my defensive algorithms is remarkable, but equality does not grant access.")
                 while True:
                     with term.location(0,11):
                         print(
