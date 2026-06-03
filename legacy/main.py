@@ -54,7 +54,7 @@ def legacy():
 
             (board[1][3]=='X' and board[2][2]=='X' and board[3][1]=='X' )):
             return True
-
+    '''
     def check_draw(board):
             szamlalo = 0
             for i in board[:1]:
@@ -65,8 +65,7 @@ def legacy():
                 return True
             else: return False
 
-
-    """     def check_draw(board):
+    def check_draw(board):
         global dontetlen_x_szamlalo
         dontetlen_x_szamlalo = 0
         for i in board:
@@ -74,8 +73,9 @@ def legacy():
                 if a == "X":
                     dontetlen_x_szamlalo +=1
         if dontetlen_x_szamlalo == 5 and not check_winnerX :
-            return True """
-        
+            return True
+    '''
+                    
     # game
     print('Üdvölünk a DBM csapat amőba játékában!')
 
@@ -135,7 +135,7 @@ def legacy():
 
             outcome1 = check_winnerO(tabla)
             outcome2 = check_winnerX(tabla)
-            outcome3 = check_draw(tabla)
+            #outcome3 = check_draw(tabla)
 
             if outcome1 == True:
                 print('A játékot megnyerte: P2')
@@ -161,6 +161,7 @@ def legacy():
                     run = False
                     break   
 
+            '''        
             elif outcome3 == True:
                 print('Döntetlen! Egyik játékos sem nyert!')
                 regame = input('Szeretnél tovább játszani? I/N\n').capitalize()
@@ -172,6 +173,7 @@ def legacy():
                     print('Köszönjük a játékot!')
                     run = False
                     break
+            '''    
 
 
             print('Az 2. játékos következik')
@@ -200,7 +202,7 @@ def legacy():
             #winner/loser tab
             outcome4 = check_winnerO(tabla)
             outcome5 = check_winnerX(tabla)
-            outcome6 = check_draw(tabla)
+            #outcome6 = check_draw(tabla)
 
 
 
@@ -228,7 +230,7 @@ def legacy():
                     run = False
                     break   
 
-            elif outcome6 == True:
+"""             elif outcome6 == True:
                 print('Döntetlen! Egyik játékos sem nyert!')
                 regame = input('Szeretnél tovább játszani? I/N\n').capitalize()
                 if regame == 'I':
@@ -238,4 +240,4 @@ def legacy():
                 if regame == 'N':
                     print('Köszönjük a játékot!')
                     run = False
-                    break
+                    break """
